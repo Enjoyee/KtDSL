@@ -22,7 +22,7 @@ open class RequestViewModel : ViewModel() {
         request: suspend () -> Response,
         onResponse: ((Response) -> Unit),
         onStart: (() -> Unit)? = null,
-        onError: ((Exception) -> Boolean)? = null,
+        onError: ((Exception) -> Unit)? = null,
         onFinally: (() -> Unit)? = null
     ) {
         api<Response> {
