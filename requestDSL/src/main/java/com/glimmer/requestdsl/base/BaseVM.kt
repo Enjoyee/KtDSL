@@ -1,14 +1,11 @@
 package com.glimmer.requestdsl.base
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.glimmer.requestdsl.model.RequestViewModel
 import kotlinx.coroutines.cancel
 
-/**
- * @author Glimmer
- * 2020/02/01
- */
 open class BaseVM : RequestViewModel() {
     val toastLiveData = MutableLiveData<String>()
 
@@ -24,8 +21,4 @@ open class BaseVM : RequestViewModel() {
         toastLiveData.value = message
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.cancel()
-    }
 }

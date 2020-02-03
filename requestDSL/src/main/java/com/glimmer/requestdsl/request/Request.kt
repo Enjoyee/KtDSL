@@ -8,8 +8,6 @@ import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
 /**
- * @author Glimmer
- * 2020/01/31
  * 请求
  */
 object Request {

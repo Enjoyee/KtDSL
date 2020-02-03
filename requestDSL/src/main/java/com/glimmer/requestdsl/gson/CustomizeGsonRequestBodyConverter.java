@@ -15,8 +15,6 @@ import okio.Buffer;
 import retrofit2.Converter;
 
 /**
- * @author Glimmer
- * 2018/08/15
  * 自定义gson解析
  */
 public class CustomizeGsonRequestBodyConverter<T> implements Converter<T, RequestBody> {

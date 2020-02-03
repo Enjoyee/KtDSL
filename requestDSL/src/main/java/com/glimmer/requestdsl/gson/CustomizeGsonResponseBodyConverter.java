@@ -8,8 +8,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
 /**
- * @author Glimmer
- * 2018/08/15
  * 自定义gson解析
  */
 public class CustomizeGsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {

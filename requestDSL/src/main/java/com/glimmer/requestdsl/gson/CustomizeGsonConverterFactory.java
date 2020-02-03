@@ -14,8 +14,6 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 /**
- * @author Glimmer
- * 2018/08/15
  * 自定义gson解析
  */
 public class CustomizeGsonConverterFactory extends Converter.Factory {

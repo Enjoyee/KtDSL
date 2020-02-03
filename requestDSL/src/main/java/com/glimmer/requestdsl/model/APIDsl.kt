@@ -5,19 +5,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * @author Glimmer
- * 2020/01/31
- */
 class APIDsl<Response> {
     internal lateinit var request: suspend () -> Response
-    internal var onStart: (() -> Boolean?)? = null
+    internal var onStart: (() -> Unit)? = null
     internal var onResponse: ((Response) -> Unit)? = null
-    internal var onError: ((Exception) -> Boolean?)? = null
-    internal var onFinally: (() -> Boolean?)? = null
+    internal var onError: ((Exception) -> Unit)? = null
+    internal var onFinally: (() -> Unit)? = null
 
     /*=======================================================================*/
-    fun onStart(onStart: (() -> Boolean?)?) {
+    fun onStart(onStart: (() -> Unit)?) {
         this.onStart = onStart
     }
 
@@ -29,11 +25,11 @@ class APIDsl<Response> {
         this.onResponse = onResponse
     }
 
-    fun onError(onError: ((Exception) -> Boolean?)?) {
+    fun onError(onError: ((Exception) -> Unit)?) {
         this.onError = onError
     }
 
-    fun onFinally(onFinally: (() -> Boolean?)?) {
+    fun onFinally(onFinally: (() -> Unit)?) {
         this.onFinally = onFinally
     }
 

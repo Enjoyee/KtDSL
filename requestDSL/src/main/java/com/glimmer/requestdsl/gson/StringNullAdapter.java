@@ -8,8 +8,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
 /**
- * @author Glimmer
- * 2018/08/15
+ * string
  */
 public class StringNullAdapter extends TypeAdapter<String> {
 

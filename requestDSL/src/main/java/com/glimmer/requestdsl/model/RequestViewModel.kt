@@ -2,14 +2,11 @@ package com.glimmer.requestdsl.model
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-/**
- * @author Glimmer
- * 2020/02/03
- */
 open class RequestViewModel : ViewModel() {
     open val apiException: MutableLiveData<Throwable> = MutableLiveData()
     open val apiLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -24,9 +21,9 @@ open class RequestViewModel : ViewModel() {
     protected fun <Response> apiCallback(
         request: suspend () -> Response,
         onResponse: ((Response) -> Unit),
-        onStart: (() -> Boolean)? = null,
+        onStart: (() -> Unit)? = null,
         onError: ((Exception) -> Boolean)? = null,
-        onFinally: (() -> Boolean)? = null
+        onFinally: (() -> Unit)? = null
     ) {
         api<Response> {
             onRequest {
@@ -38,27 +35,19 @@ open class RequestViewModel : ViewModel() {
             }
 
             onStart {
-                val override = onStart?.invoke()
-                if (override == null || !override) {
-                    onApiStart()
-                }
-                false
+                apiLoading.value = true
+                onStart?.invoke()
             }
 
-            onError {
-                val override = onError?.invoke(it)
-                if (override == null || !override) {
-                    onApiError(it)
-                }
-                false
+            onError { error ->
+                apiLoading.value = false
+                apiException.value = error
+                onError?.invoke(error)
             }
 
             onFinally {
-                val override = onFinally?.invoke()
-                if (override == null || !override) {
-                    onApiFinally()
-                }
-                false
+                apiLoading.value = false
+                onFinally?.invoke()
             }
         }
     }
@@ -75,27 +64,16 @@ open class RequestViewModel : ViewModel() {
             }
 
             onStart {
-                val override = APIDsl<Response>().apply(apiDSL).onStart?.invoke()
-                if (override == null || !override) {
-                    onApiStart()
-                }
-                override
+                apiLoading.value = true
             }
 
             onError { error ->
-                val override = APIDsl<Response>().apply(apiDSL).onError?.invoke(error)
-                if (override == null || !override) {
-                    onApiError(error)
-                }
-                override
+                apiLoading.value = false
+                apiException.value = error
             }
 
             onFinally {
-                val override = APIDsl<Response>().apply(apiDSL).onFinally?.invoke()
-                if (override == null || !override) {
-                    onApiFinally()
-                }
-                override
+                apiLoading.value = false
             }
         }
     }
@@ -121,18 +99,9 @@ open class RequestViewModel : ViewModel() {
         }
     }
 
-    /*=======================================================================*/
-    protected open fun onApiStart() {
-        apiLoading.value = true
-    }
-
-    protected open fun onApiError(e: Exception?) {
-        apiLoading.value = false
-        apiException.value = e
-    }
-
-    protected open fun onApiFinally() {
-        apiLoading.value = false
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 
     /*=================Result必须加泛型 不然response的泛型就会被擦除=================*/

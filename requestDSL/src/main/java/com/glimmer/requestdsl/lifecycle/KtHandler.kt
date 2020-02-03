@@ -6,10 +6,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
-/**
- * @author Glimmer
- * 2020/02/03
- */
 class KtHandler(private val lifecycleOwner: LifecycleOwner, callback: Callback) : Handler(callback), LifecycleObserver {
 
     init {

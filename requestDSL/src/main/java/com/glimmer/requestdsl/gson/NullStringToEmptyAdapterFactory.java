@@ -6,8 +6,7 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * @author Glimmer
- * 2018/08/15
+ * null转换
  */
 public class NullStringToEmptyAdapterFactory implements TypeAdapterFactory {
 
