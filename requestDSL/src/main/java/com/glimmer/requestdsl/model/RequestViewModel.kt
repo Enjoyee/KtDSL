@@ -26,17 +26,18 @@ open class RequestViewModel : ViewModel() {
         onFinally: (() -> Unit)? = null
     ) {
         api<Response> {
+
+            onStart {
+                apiLoading.value = true
+                onStart?.invoke()
+            }
+
             onRequest {
                 request.invoke()
             }
 
             onResponse {
                 onResponse.invoke(it)
-            }
-
-            onStart {
-                apiLoading.value = true
-                onStart?.invoke()
             }
 
             onError { error ->
@@ -55,6 +56,12 @@ open class RequestViewModel : ViewModel() {
     /*=======================================================================*/
     protected fun <Response> apiDsl(apiDSL: APIDsl<Response>.() -> Unit) {
         api<Response> {
+
+            onStart {
+                apiLoading.value = true
+                APIDsl<Response>().apply(apiDSL).onStart?.invoke()
+            }
+
             onRequest {
                 APIDsl<Response>().apply(apiDSL).request()
             }
@@ -63,17 +70,15 @@ open class RequestViewModel : ViewModel() {
                 APIDsl<Response>().apply(apiDSL).onResponse?.invoke(it)
             }
 
-            onStart {
-                apiLoading.value = true
-            }
-
             onError { error ->
                 apiLoading.value = false
                 apiException.value = error
+                APIDsl<Response>().apply(apiDSL).onError?.invoke(error)
             }
 
             onFinally {
                 apiLoading.value = false
+                APIDsl<Response>().apply(apiDSL).onFinally?.invoke()
             }
         }
     }
