@@ -38,7 +38,7 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 }
 
-// gradle clean build bintrayUpload -PbintrayUser=enjoyeetime -PbintrayKey=bbfdbfd8e128f3118859002c59d34fda14d722b8 -PdryRun=false
+
 publish {
     userOrg = 'enjoyeetime'
     groupId = 'com.glimmer'
