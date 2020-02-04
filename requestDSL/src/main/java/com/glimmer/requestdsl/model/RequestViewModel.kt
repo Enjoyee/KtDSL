@@ -116,6 +116,5 @@ open class RequestViewModel : ViewModel() {
         data class Error<T>(val exception: Exception) : Result<T>()
         class Finally<T> : Result<T>()
     }
-    /*=======================================================================*/
 }
 
