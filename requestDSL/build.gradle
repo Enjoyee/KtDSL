@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 29
@@ -35,4 +36,14 @@ dependencies {
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+}
+
+// gradle clean build bintrayUpload -PbintrayUser=enjoyeetime -PbintrayKey=bbfdbfd8e128f3118859002c59d34fda14d722b8 -PdryRun=false
+publish {
+    userOrg = 'enjoyeetime'
+    groupId = 'com.glimmer'
+    artifactId = 'requestDSL'
+    publishVersion = '1.0.0'
+    desc = 'this is the kt dsl library'
+    website = 'https://github.com/Enjoyee/KtDSL'
 }
