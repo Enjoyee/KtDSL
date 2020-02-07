@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
@@ -38,12 +37,11 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 }
 
-
 publish {
     userOrg = 'enjoyeetime'
     groupId = 'com.glimmer'
     artifactId = 'requestDSL'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.2'
     desc = 'this is the kt dsl library'
     website = 'https://github.com/Enjoyee/KtDSL'
 }

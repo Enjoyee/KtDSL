@@ -49,7 +49,10 @@ object Request {
         // OKHttp Builder
         val defaultOkHttpBuilder = getDefaultOkHttpBuilder(mAppContext)
         mOkHttpBuilder = dsl?.mBuildOkHttp?.invoke(defaultOkHttpBuilder) ?: defaultOkHttpBuilder
-        mOkHttpBuilder.addInterceptor(LoggingInterceptor())
+        val showLog = dsl?.mShowLog ?: true
+        if (showLog) {
+            mOkHttpBuilder.addInterceptor(LoggingInterceptor())
+        }
         // Retrofit Builder
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -64,6 +67,7 @@ object Request {
 class RequestDsl {
     internal var mBuildOkHttp: ((OkHttpClient.Builder) -> OkHttpClient.Builder)? = null
     internal var mBuildRetrofit: ((Retrofit.Builder) -> Retrofit.Builder)? = null
+    internal var mShowLog: Boolean? = null
 
     fun okHttp(builder: ((OkHttpClient.Builder) -> OkHttpClient.Builder)?) {
         mBuildOkHttp = builder
