@@ -62,7 +62,7 @@ public final class LoggingInterceptor implements Interceptor {
                         for (int i = 0; i < body.size(); i++) {
                             sb.append(body.encodedName(i)).append("=").append(body.encodedValue(i)).append(",");
                         }
-                        OkLog.log("RequestBody :{" + sb.toString() + "}");
+                        OkLog.log("Params-->{" + sb.toString() + "}");
                     }
                 }
             }
@@ -93,7 +93,7 @@ public final class LoggingInterceptor implements Interceptor {
                     buffer = decodeGzip(buffer);
                 }
                 if (charset != null) {
-                    OkLog.log("Headers-->" + buffer.readString(charset));
+                    OkLog.log("Params-->" + buffer.readString(charset));
                 }
             }
             OkLog.log("Content-Length-->" + requestBody.contentLength());
@@ -112,7 +112,7 @@ public final class LoggingInterceptor implements Interceptor {
         OkLog.log("Code-->" + response.code());
         OkLog.log("Message-->" + response.message());
         OkLog.log("URL-->" + response.request().url());
-        OkLog.log("TimeToken-->" + tookMs + "ms");
+        OkLog.log("CostTime-->" + tookMs + "ms");
         OkLog.log("BodySize-->" + contentLength + "byte");
         OkLog.log("Method-->" + response.request().method());
 
@@ -186,8 +186,7 @@ public final class LoggingInterceptor implements Interceptor {
             return true;
         }
 
-        return contentLength(response.headers()) != -1
-                || "chunked".equalsIgnoreCase(response.header("Transfer-Encoding"));
+        return contentLength(response.headers()) != -1 || "chunked".equalsIgnoreCase(response.header("Transfer-Encoding"));
     }
 
     private long contentLength(Headers headers) {
