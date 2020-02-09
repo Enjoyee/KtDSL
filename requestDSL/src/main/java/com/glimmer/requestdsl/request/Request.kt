@@ -38,9 +38,9 @@ object Request {
         return OkHttpClient.Builder()
             .cache(Cache(appContext.cacheDir, 10 * 1024 * 1024L))
             .addInterceptor(mHeaders)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(20, TimeUnit.SECONDS)
-            .writeTimeout(20, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
     }
 
     private fun initRetrofit(requestDsl: (RequestDsl.() -> Unit)?, baseUrl: String) {

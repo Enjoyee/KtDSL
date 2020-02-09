@@ -41,7 +41,7 @@ publish {
     userOrg = 'enjoyeetime'
     groupId = 'com.glimmer'
     artifactId = 'requestDSL'
-    publishVersion = '1.0.4'
+    publishVersion = '1.0.5'
     desc = 'this is the kt dsl library'
     website = 'https://github.com/Enjoyee/KtDSL'
 }
