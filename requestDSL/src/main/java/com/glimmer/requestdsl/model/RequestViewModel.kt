@@ -19,9 +19,9 @@ open class RequestViewModel : ViewModel() {
     /*=======================================================================*/
     @JvmOverloads
     protected fun <Response> apiCallback(
+        onStart: (() -> Unit)? = null,
         request: suspend () -> Response,
         onResponse: ((Response) -> Unit),
-        onStart: (() -> Unit)? = null,
         onError: ((Exception) -> Unit)? = null,
         onFinally: (() -> Unit)? = null
     ) {
