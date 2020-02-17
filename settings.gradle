@@ -1,2 +1,2 @@
-include ':requestDSL'
+include ':requestDSL', ':requestrx'
 rootProject.name='KtDSL'
