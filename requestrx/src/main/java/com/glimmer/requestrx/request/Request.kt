@@ -22,6 +22,12 @@ object Request {
     fun init(appContext: Context, baseUrl: String, requestBuilder: (() -> Builder)? = null) {
         mAppContext = appContext.applicationContext
         mHeaders = HeaderInterceptor()
+        initRetrofit(requestBuilder?.invoke(), baseUrl)
+    }
+
+    fun init(appContext: Context, baseUrl: String, requestBuilder: Builder? = null) {
+        mAppContext = appContext.applicationContext
+        mHeaders = HeaderInterceptor()
         initRetrofit(requestBuilder, baseUrl)
     }
 
@@ -47,11 +53,11 @@ object Request {
             .writeTimeout(60, TimeUnit.SECONDS)
     }
 
-    private fun initRetrofit(requestBuilder: (() -> Builder)? = null, baseUrl: String) {
+    private fun initRetrofit(requestBuilder: Builder? = null, baseUrl: String) {
         // OKHttp Builder
         val defaultOkHttpBuilder = getDefaultOkHttpBuilder(mAppContext)
-        mOkHttpBuilder = requestBuilder?.invoke()?.mBuildOkHttp ?: defaultOkHttpBuilder
-        val showLog = requestBuilder?.invoke()?.mShowLog ?: true
+        mOkHttpBuilder = requestBuilder?.mBuildOkHttp ?: defaultOkHttpBuilder
+        val showLog = requestBuilder?.mShowLog ?: true
         if (showLog) {
             mOkHttpBuilder.addInterceptor(LoggingInterceptor())
         }
@@ -61,7 +67,7 @@ object Request {
             .addConverterFactory(CustomizeGsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(mOkHttpBuilder.build())
-        mRetrofitBuilder = requestBuilder?.invoke()?.mBuildRetrofit ?: retrofitBuilder
+        mRetrofitBuilder = requestBuilder?.mBuildRetrofit ?: retrofitBuilder
     }
 
     /*=======================================================================*/
@@ -78,6 +84,10 @@ object Request {
         internal var CONNECT_ERROR_MSG: String = "连接服务器失败"
         internal var CONNECT_TIMEOUT_MSG: String = "连接超时"
         internal var OTHER_MSG: String = "未知错误"
+
+        fun showLog(showLog: () -> Boolean) = apply {
+            this.mShowLog = showLog.invoke()
+        }
 
         fun showLog(showLog: Boolean) = apply {
             this.mShowLog = showLog
