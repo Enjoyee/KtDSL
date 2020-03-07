@@ -19,12 +19,6 @@ object Request {
     private lateinit var mRetrofitBuilder: Retrofit.Builder
 
     /*=======================================================================*/
-    fun init(appContext: Context, baseUrl: String, requestBuilder: (() -> Builder)? = null) {
-        mAppContext = appContext.applicationContext
-        mHeaders = HeaderInterceptor()
-        initRetrofit(requestBuilder?.invoke(), baseUrl)
-    }
-
     fun init(appContext: Context, baseUrl: String, requestBuilder: Builder? = null) {
         mAppContext = appContext.applicationContext
         mHeaders = HeaderInterceptor()
@@ -37,7 +31,7 @@ object Request {
     }
 
     fun putHead(key: String, value: String): HeaderInterceptor {
-        mHeaders.put(key, value)
+        mHeaders.putHead(key, value)
         return mHeaders
     }
 
@@ -75,7 +69,7 @@ object Request {
         internal var mShowLog: Boolean = true
         internal var mBuildOkHttp: OkHttpClient.Builder? = null
         internal var mBuildRetrofit: Retrofit.Builder? = null
-        internal var mTokenLostCode: Int = -1
+        internal var mTokenLostCode: String = "-1"
 
         internal var mLoginCls: Class<*>? = null
 
@@ -85,48 +79,44 @@ object Request {
         internal var CONNECT_TIMEOUT_MSG: String = "连接超时"
         internal var OTHER_MSG: String = "未知错误"
 
-        fun showLog(showLog: () -> Boolean) = apply {
-            this.mShowLog = showLog.invoke()
-        }
-
         fun showLog(showLog: Boolean) = apply {
             this.mShowLog = showLog
         }
 
-        fun okHttpBuilder(buildOkHttp: () -> OkHttpClient.Builder) = apply {
-            this.mBuildOkHttp = buildOkHttp.invoke()
+        fun okHttpBuilder(buildOkHttp: OkHttpClient.Builder) = apply {
+            this.mBuildOkHttp = buildOkHttp
         }
 
-        fun buildRetrofit(buildRetrofit: () -> Retrofit.Builder) = apply {
-            this.mBuildRetrofit = buildRetrofit.invoke()
+        fun buildRetrofit(buildRetrofit: Retrofit.Builder) = apply {
+            this.mBuildRetrofit = buildRetrofit
         }
 
-        fun tokenLostCode(code: () -> Int) = apply {
-            this.mTokenLostCode = code.invoke()
+        fun tokenLostCode(code: String) = apply {
+            this.mTokenLostCode = code
         }
 
-        fun loginCls(cls: () -> Class<*>) = apply {
-            this.mLoginCls = cls.invoke()
+        fun loginCls(cls: Class<*>) = apply {
+            this.mLoginCls = cls
         }
 
-        fun msgParseErr(msg: () -> String) = apply {
-            this.PARSE_ERROR_MSG = msg.invoke()
+        fun msgParseErr(msg: String) = apply {
+            this.PARSE_ERROR_MSG = msg
         }
 
-        fun msgBadNetWork(msg: () -> String) = apply {
-            this.BAD_NETWORK_MSG = msg.invoke()
+        fun msgBadNetWork(msg: String) = apply {
+            this.BAD_NETWORK_MSG = msg
         }
 
-        fun msgConnectErr(msg: () -> String) = apply {
-            this.CONNECT_ERROR_MSG = msg.invoke()
+        fun msgConnectErr(msg: String) = apply {
+            this.CONNECT_ERROR_MSG = msg
         }
 
-        fun msgConnectTimeout(msg: () -> String) = apply {
-            this.CONNECT_TIMEOUT_MSG = msg.invoke()
+        fun msgConnectTimeout(msg: String) = apply {
+            this.CONNECT_TIMEOUT_MSG = msg
         }
 
-        fun msgOther(msg: () -> String) = apply {
-            this.OTHER_MSG = msg.invoke()
+        fun msgOther(msg: String) = apply {
+            this.OTHER_MSG = msg
         }
 
     }

@@ -11,10 +11,10 @@ import io.reactivex.ObservableTransformer
  * 接口用例
  */
 abstract class UseCase<T : IBaseEntity> constructor(private val activity: Activity?, private val showErrToast: Boolean = true) {
-    private lateinit var mParam: HashMap<String, Any>
+    protected lateinit var mParam: HashMap<String, Any>
 
-    open fun setParamMap(param: () -> HashMap<String, Any>): UseCase<T> {
-        this.mParam = param.invoke()
+    open fun setParamMap(param: HashMap<String, Any>): UseCase<T> {
+        this.mParam = param
         return this
     }
 

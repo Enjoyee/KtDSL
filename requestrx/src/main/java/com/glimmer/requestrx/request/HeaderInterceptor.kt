@@ -14,12 +14,12 @@ class HeaderInterceptor : Interceptor {
         return chain.proceed(requestBuilder.build())
     }
 
-    fun put(key: String, value: String): HeaderInterceptor {
+    fun putHead(key: String, value: String): HeaderInterceptor {
         mHeaders[key] = value
         return this
     }
 
-    fun put(headers: HashMap<String, String>): HeaderInterceptor {
+    fun putHead(headers: HashMap<String, String>): HeaderInterceptor {
         this.mHeaders.putAll(headers)
         return this
     }

@@ -1,7 +1,7 @@
 package com.glimmer.requestrx.entity
 
 interface IBaseEntity {
-    fun getCode(): Int
+    fun getCode(): String
 
     fun getMsg(): String?
 

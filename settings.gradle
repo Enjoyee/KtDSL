@@ -1,2 +1,2 @@
-include ':requestDSL', ':requestrx'
+include ':requestDSL', ':requestrx', ':hammermvvm'
 rootProject.name='KtDSL'

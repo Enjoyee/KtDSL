@@ -1,18 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -22,24 +22,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.squareup.retrofit2:retrofit:2.6.4'
-    api 'com.squareup.retrofit2:converter-gson:2.6.4'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.4'
-    api 'com.squareup.okhttp3:okhttp:4.3.1'
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'io.reactivex.rxjava2:rxjava:2.2.10'
-}
-
-publish {
-    userOrg = 'enjoyeetime'
-    groupId = 'com.glimmer'
-    artifactId = 'requestRx'
-    publishVersion = '1.1.14'
-    desc = 'this is the kt rx library'
-    website = 'https://github.com/Enjoyee/KtDSL'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
 }
