@@ -1,16 +1,17 @@
-package com.glimmer.requestdsl.model
+package com.glimmer.requestdsl.request
 
+import com.glimmer.uutil.L
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class APIDsl<Response> {
-    internal lateinit var request: suspend () -> Response
-    internal var onStart: (() -> Unit)? = null
-    internal var onResponse: ((Response) -> Unit)? = null
-    internal var onError: ((Exception) -> Unit)? = null
-    internal var onFinally: (() -> Unit)? = null
+    lateinit var request: suspend () -> Response
+    var onStart: (() -> Unit)? = null
+    var onResponse: ((Response) -> Unit)? = null
+    var onError: ((Exception) -> Unit)? = null
+    var onFinally: (() -> Unit)? = null
 
     /*=======================================================================*/
     fun onStart(onStart: (() -> Unit)?) {
@@ -34,14 +35,14 @@ class APIDsl<Response> {
     }
 
     /*=======================================================================*/
-    internal fun launch(viewModelScope: CoroutineScope) {
+    fun launch(viewModelScope: CoroutineScope) {
         viewModelScope.launch(context = Dispatchers.Main) {
             onStart?.invoke()
             try {
                 val response = withContext(Dispatchers.IO) { request() }
                 onResponse?.invoke(response)
             } catch (e: Exception) {
-                e.printStackTrace()
+                L.e(e, "网络请求出错")
                 onError?.invoke(e)
             } finally {
                 onFinally?.invoke()

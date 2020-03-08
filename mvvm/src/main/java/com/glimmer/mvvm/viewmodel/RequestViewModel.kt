@@ -1,6 +1,8 @@
-package com.glimmer.requestdsl.model
+package com.glimmer.mvvm.viewmodel
 
 import androidx.lifecycle.*
+import com.glimmer.requestdsl.request.APIDsl
+import com.glimmer.uutil.L
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
@@ -8,8 +10,8 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 open class RequestViewModel : ViewModel() {
-    open val apiException: MutableLiveData<Throwable> = MutableLiveData()
-    open val apiLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val apiException: MutableLiveData<Throwable> = MutableLiveData()
+    val apiLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     /*=======================================================================*/
     private fun <Response> api(apiDSL: APIDsl<Response>.() -> Unit) {
@@ -96,8 +98,8 @@ open class RequestViewModel : ViewModel() {
                     Result.Response(request())
                 })
             } catch (e: Exception) {
-                e.printStackTrace()
-                emit(Result.Error(e))
+                L.e(e, "网络请求出错")
+                emit(Result.Error<Response>(e))
             } finally {
                 emit(Result.Finally())
             }

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.novoda.bintray-release'
 
 def androidConfig = rootProject.ext.android
 
@@ -30,22 +29,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.squareup.retrofit2:retrofit:2.7.1'
-    api 'com.squareup.retrofit2:converter-gson:2.7.1'
-    api 'com.squareup.okhttp3:okhttp:4.3.1'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
-    api "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    ////////////////////////////////////////////////////////////////////////
-    implementation project(":uutil")
-    ////////////////////////////////////////////////////////////////////////
-}
-
-publish {
-    userOrg = 'enjoyeetime'
-    groupId = 'com.glimmer'
-    artifactId = 'requestDSL'
-    publishVersion = '1.0.7'
-    desc = 'this is the kt dsl library'
-    website = 'https://github.com/Enjoyee/KtDSL'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'com.orhanobut:logger:2.2.0'
 }

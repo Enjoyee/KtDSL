@@ -7,20 +7,22 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
-/**
- * 请求
- */
-object Request {
+object RequestDSL {
     private lateinit var mAppContext: Context
+    private var mLoggable = true
     private lateinit var mHeaders: HeaderInterceptor
     private lateinit var mOkHttpBuilder: OkHttpClient.Builder
     private lateinit var mRetrofitBuilder: Retrofit.Builder
 
     /*=======================================================================*/
-    fun init(appContext: Context, baseUrl: String, requestDsl: (RequestDsl.() -> Unit)? = null) {
+    fun init(appContext: Context, requestConfig: (RequestConfig.() -> Unit)? = null) {
+        init(appContext, "", requestConfig)
+    }
+
+    fun init(appContext: Context, baseUrl: String, requestConfig: (RequestConfig.() -> Unit)? = null) {
         mAppContext = appContext.applicationContext
         mHeaders = HeaderInterceptor()
-        initRetrofit(requestDsl, baseUrl)
+        initRetrofit(requestConfig, baseUrl)
     }
 
     /*=======================================================================*/
@@ -43,16 +45,14 @@ object Request {
             .writeTimeout(60, TimeUnit.SECONDS)
     }
 
-    private fun initRetrofit(requestDsl: (RequestDsl.() -> Unit)?, baseUrl: String) {
+    private fun initRetrofit(requestConfig: (RequestConfig.() -> Unit)?, baseUrl: String) {
         // dsl
-        val dsl = if (requestDsl != null) RequestDsl().also(requestDsl) else null
+        val dsl = if (requestConfig != null) RequestConfig().also(requestConfig) else null
         // OKHttp Builder
         val defaultOkHttpBuilder = getDefaultOkHttpBuilder(mAppContext)
         mOkHttpBuilder = dsl?.mBuildOkHttp?.invoke(defaultOkHttpBuilder) ?: defaultOkHttpBuilder
-        val showLog = dsl?.showLog ?: true
-        if (showLog) {
-            mOkHttpBuilder.addInterceptor(LoggingInterceptor())
-        }
+        mLoggable = dsl?.mShowLog?.invoke() ?: true
+        mOkHttpBuilder.addInterceptor(LoggingInterceptor())
         // Retrofit Builder
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -62,12 +62,17 @@ object Request {
     }
 
     /*=======================================================================*/
+    fun loggable() = mLoggable
 }
 
-class RequestDsl {
-    var showLog: Boolean = true
+class RequestConfig {
+    internal var mShowLog: (() -> Boolean) = { true }
     internal var mBuildOkHttp: ((OkHttpClient.Builder) -> OkHttpClient.Builder)? = null
     internal var mBuildRetrofit: ((Retrofit.Builder) -> Retrofit.Builder)? = null
+
+    fun showLog(showLog: (() -> Boolean)) {
+        mShowLog = showLog
+    }
 
     fun okHttp(builder: ((OkHttpClient.Builder) -> OkHttpClient.Builder)?) {
         mBuildOkHttp = builder
