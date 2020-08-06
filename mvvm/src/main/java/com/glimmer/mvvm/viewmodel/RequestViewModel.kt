@@ -2,7 +2,7 @@ package com.glimmer.mvvm.viewmodel
 
 import androidx.lifecycle.*
 import com.glimmer.requestdsl.request.APIDsl
-import com.glimmer.uutil.L
+import com.glimmer.uutil.K
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
@@ -98,7 +98,7 @@ open class RequestViewModel : ViewModel() {
                     Result.Response(request())
                 })
             } catch (e: Exception) {
-                L.e(e, "网络请求出错")
+                K.e(e, "网络请求出错")
                 emit(Result.Error<Response>(e))
             } finally {
                 emit(Result.Finally())

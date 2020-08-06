@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'
 
 def androidConfig = rootProject.ext.android
 
@@ -29,6 +30,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'com.orhanobut:logger:2.2.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+}
+
+publish {
+    userOrg = 'enjoyeetime'
+    groupId = 'com.glimmer'
+    artifactId = 'uutils'
+    publishVersion = '0.0.1'
+    desc = 'this is the util library'
+    website = ''
 }

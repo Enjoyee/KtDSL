@@ -6,14 +6,14 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
-class LHandler(private val lifecycleOwner: LifecycleOwner, callback: Callback) : Handler(callback), LifecycleObserver {
+class KHandler(private val lifecycleOwner: LifecycleOwner, callback: Callback? = null) : Handler(callback), LifecycleObserver {
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun destroy() {
+    private fun destroy() {
         removeCallbacksAndMessages(null)
         lifecycleOwner.lifecycle.removeObserver(this)
     }

@@ -2,9 +2,10 @@ package com.glimmer.mvvm
 
 import android.app.Application
 import com.glimmer.mvvm.lifecycle.ActivityLifecycle
+import com.glimmer.mvvm.lifecycle.ApplicationLifecycle
 import com.glimmer.mvvm.provider.ContextProvider
 import com.glimmer.requestdsl.request.RequestDSL
-import com.glimmer.uutil.L
+import com.glimmer.uutil.K
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -12,6 +13,7 @@ object Hammer {
     internal lateinit var mConfig: MVVMConfig
 
     internal fun init(application: Application) {
+        ApplicationLifecycle.register(application)
         application.registerActivityLifecycleCallbacks(ActivityLifecycle)
     }
 
@@ -24,11 +26,12 @@ object Hammer {
             retrofit(mConfig.mBuildRetrofit)
         }
         // log
-        L.loggable(mConfig.mShowLog.invoke()).logTag(mConfig.mLogTag.invoke()).buildLog()
+        K.loggable(mConfig.mShowLog.invoke()).logTag(mConfig.mLogTag.invoke()).buildLog()
     }
 
     class MVVMConfig {
         internal var mShowLog: (() -> Boolean) = { true }
+        internal var mShowViewLifecycleLog: (() -> Boolean) = { true }
         internal var mShowApiErrToast: (() -> Boolean) = { true }
         internal var mShowApiLoading: (() -> Boolean) = { true }
         internal var mLogTag: (() -> String) = { "Hammer" }
@@ -38,6 +41,10 @@ object Hammer {
 
         fun showLog(showLog: (() -> Boolean)) {
             mShowLog = showLog
+        }
+
+        fun showViewLifecycleLog(showViewLifecycleLog: (() -> Boolean)) {
+            mShowViewLifecycleLog = showViewLifecycleLog
         }
 
         fun showApiErrToast(showApiErrToast: (() -> Boolean)) {

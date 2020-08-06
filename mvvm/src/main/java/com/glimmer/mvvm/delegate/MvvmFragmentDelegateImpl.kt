@@ -10,7 +10,7 @@ import com.glimmer.mvvm.commom.ViewModelFactory
 import com.glimmer.mvvm.view.IMvvmFragment
 import java.lang.reflect.Field
 
-class MvvmFragmentDelegateImpl(private val fm: FragmentManager, private val fragment: Fragment) : FragmentDelegateImpl(fm, fragment), IMvvmFragment {
+class MvvmFragmentDelegateImpl(fm: FragmentManager, private val fragment: Fragment) : FragmentDelegateImpl(fm, fragment), IMvvmFragment {
 
     override fun getLayoutId(): Int = 0
 

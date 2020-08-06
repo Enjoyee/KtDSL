@@ -4,20 +4,23 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import com.glimmer.mvvm.Hammer
 import com.glimmer.mvvm.commom.ActivityManager
 import com.glimmer.mvvm.delegate.ActivityDelegate
 import com.glimmer.mvvm.delegate.ActivityDelegateImpl
 import com.glimmer.mvvm.delegate.MvvmActivityDelegateImpl
 import com.glimmer.mvvm.view.IActivity
 import com.glimmer.mvvm.view.IMvvmActivity
-import com.glimmer.uutil.L
+import com.glimmer.uutil.K
 
 object ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     private val cacheActivityDelegate by lazy { HashMap<String, ActivityDelegate>() }
     private lateinit var activityDelegate: ActivityDelegate
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        L.v("Activity界面：%s onCreate", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onCreate", activity?.javaClass?.canonicalName)
+        }
         activity?.let { ActivityManager.add(it) }
         forwardDelegate(activity) { activityDelegate.onCreate(savedInstanceState) }
         registerFragmentCallback(activity)
@@ -29,27 +32,37 @@ object ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityStarted(activity: Activity?) {
-        L.v("Activity界面：%s onStart", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onStart", activity?.javaClass?.canonicalName)
+        }
         forwardDelegate(activity) { activityDelegate.onStart() }
     }
 
     override fun onActivityResumed(activity: Activity?) {
-        L.v("Activity界面：%s onResume", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onResume", activity?.javaClass?.canonicalName)
+        }
         forwardDelegate(activity) { activityDelegate.onResume() }
     }
 
     override fun onActivityPaused(activity: Activity?) {
-        L.v("Activity界面：%s onPause", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onPause", activity?.javaClass?.canonicalName)
+        }
         forwardDelegate(activity) { activityDelegate.onPause() }
     }
 
     override fun onActivityStopped(activity: Activity?) {
-        L.v("Activity界面：%s onStop", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onStop", activity?.javaClass?.canonicalName)
+        }
         forwardDelegate(activity) { activityDelegate.onStop() }
     }
 
     override fun onActivityDestroyed(activity: Activity?) {
-        L.v("Activity界面：%s onDestroy", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onDestroy", activity?.javaClass?.canonicalName)
+        }
         activity?.let { ActivityManager.remove(it) }
         forwardDelegate(activity) {
             activityDelegate.onDestroy()
@@ -58,7 +71,9 @@ object ActivityLifecycle : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-        L.v("Activity界面：%s onSaveInstanceState", activity?.javaClass?.canonicalName)
+        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
+            K.v("Activity界面：%s onSaveInstanceState", activity?.javaClass?.canonicalName)
+        }
         forwardDelegate(activity) { activityDelegate.onSaveInstanceState(activity, outState) }
     }
 

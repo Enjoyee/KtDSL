@@ -4,7 +4,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import com.glimmer.uutil.L
+import com.glimmer.uutil.K
 
 class HammerContentProvider : ContentProvider() {
 
@@ -13,8 +13,8 @@ class HammerContentProvider : ContentProvider() {
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? = null
 
     override fun onCreate(): Boolean {
-        L.logTag("Hammer").loggable(true).buildLog()
-        L.d("MVVM ContentProvider init...")
+        K.logTag("Hammer").loggable(true).buildLog()
+        K.d("MVVM ContentProvider init...")
         ContextProvider.attachContext(context)
         return true
     }
