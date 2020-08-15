@@ -2,16 +2,15 @@ package com.glimmer.mvvm.viewmodel
 
 import androidx.lifecycle.*
 import com.glimmer.requestdsl.request.APIDsl
-import com.glimmer.uutil.K
+import com.glimmer.uutil.KLog
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 open class RequestViewModel : ViewModel() {
-    val apiException: MutableLiveData<Throwable> = MutableLiveData()
-    val apiLoading: MutableLiveData<Boolean> = MutableLiveData()
+    private val apiException = MutableLiveData<Throwable>()
+    private val apiLoading = MutableLiveData<Boolean>()
 
     /*=======================================================================*/
     private fun <Response> api(apiDSL: APIDsl<Response>.() -> Unit) {
@@ -28,7 +27,6 @@ open class RequestViewModel : ViewModel() {
         onFinally: (() -> Unit)? = null
     ) {
         api<Response> {
-
             onStart {
                 apiLoading.value = true
                 onStart?.invoke()
@@ -58,7 +56,6 @@ open class RequestViewModel : ViewModel() {
     /*=======================================================================*/
     protected fun <Response> apiDsl(apiDSL: APIDsl<Response>.() -> Unit) {
         api<Response> {
-
             onStart {
                 apiLoading.value = true
                 APIDsl<Response>().apply(apiDSL).onStart?.invoke()
@@ -92,31 +89,26 @@ open class RequestViewModel : ViewModel() {
         request: suspend () -> Response
     ): LiveData<Result<Response>> {
         return liveData(context, timeoutInMs) {
-            emit(Result.Start())
+            emit(Result.Loading())
             try {
                 emit(withContext(Dispatchers.IO) {
                     Result.Response(request())
                 })
             } catch (e: Exception) {
-                K.e(e, "网络请求出错")
-                emit(Result.Error<Response>(e))
+                KLog.e(e, "网络请求出错")
+                emit(Result.Error(e))
             } finally {
-                emit(Result.Finally())
+                emit(Result.Finish())
             }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.cancel()
-    }
-
     /*=================Result必须加泛型 不然response的泛型就会被擦除=================*/
     sealed class Result<T> {
-        class Start<T> : Result<T>()
+        class Loading<T> : Result<T>()
         data class Response<T>(val response: T) : Result<T>()
         data class Error<T>(val exception: Exception) : Result<T>()
-        class Finally<T> : Result<T>()
+        class Finish<T> : Result<T>()
     }
 }
 

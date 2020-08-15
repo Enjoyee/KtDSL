@@ -1,9 +1,5 @@
 package com.glimmer.mvvm.view
 
-import android.os.Bundle
-
-interface IActivity : IView {
+interface IActivity : IView, IStateView, ILoadingDialog {
     fun initWidows() {}
-
-    fun initArgs(extras: Bundle?) {}
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.glimmer.enjoy.list.PeopleListVM" />
+
+        <variable
+            name="clicker"
+            type="com.glimmer.mvvm.common.Clicker" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{clicker}"
+            android:text="刷新" />
+
+        <Button
+            android:id="@+id/btAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{clicker}"
+            android:text="新增" />
+
+        <Button
+            android:id="@+id/btDel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{clicker}"
+            android:text="删除" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_teacher" />
+
+    </LinearLayout>
+</layout>

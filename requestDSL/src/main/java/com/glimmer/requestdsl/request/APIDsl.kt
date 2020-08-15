@@ -1,6 +1,6 @@
 package com.glimmer.requestdsl.request
 
-import com.glimmer.uutil.K
+import com.glimmer.uutil.KLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class APIDsl<Response> {
                 val response = withContext(Dispatchers.IO) { request() }
                 onResponse?.invoke(response)
             } catch (e: Exception) {
-                K.e(e, "网络请求出错")
+                KLog.e(e, "网络请求出错")
                 onError?.invoke(e)
             } finally {
                 onFinally?.invoke()

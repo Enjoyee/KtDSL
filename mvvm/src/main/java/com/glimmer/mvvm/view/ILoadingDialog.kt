@@ -1,9 +1,7 @@
 package com.glimmer.mvvm.view
 
 interface ILoadingDialog {
-    fun showLoadingDialog()
+    fun showLoadingDialog() {}
 
-    fun dismissLoadingDialog()
-
-    fun isShowing(): Boolean
+    fun dismissLoadingDialog() {}
 }

@@ -7,7 +7,7 @@ import com.orhanobut.logger.LogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 
-object K {
+object KLog {
     private var loggable: Boolean = true
     private var logTag = "Glimmer"
 
@@ -15,12 +15,12 @@ object K {
         buildLog()
     }
 
-    fun logTag(tag: String): K {
+    fun logTag(tag: String): KLog {
         logTag = tag
         return this
     }
 
-    fun loggable(enable: Boolean): K {
+    fun loggable(enable: Boolean): KLog {
         loggable = enable
         return this
     }

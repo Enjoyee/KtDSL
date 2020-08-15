@@ -1,4 +1,4 @@
-package com.glimmer.mvvm.commom
+package com.glimmer.mvvm.common
 
 import android.app.Activity
 

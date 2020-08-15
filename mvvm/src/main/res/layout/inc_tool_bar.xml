@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="bean"
+            type="com.glimmer.mvvm.bean.BeanToolBar" />
+
+        <variable
+            name="clicker"
+            type="com.glimmer.mvvm.common.Clicker" />
+
+        <variable
+            name="vm"
+            type="com.glimmer.mvvm.viewmodel.BaseVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        bgGradientColors="@{bean.bgGradientColors}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Space
+            android:id="@+id/fakeStatusBar"
+            height="@{bean.marginStatusBarHeight}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLeft"
+            leftIcon="@{bean.leftIcon}"
+            tvColor="@{bean.leftColor}"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@{bean.leftText}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fakeStatusBar" />
+
+        <TextView
+            android:id="@+id/tvCenter"
+            style="@style/toolBarCenterTv"
+            tvColor="@{bean.centerColor}"
+            android:layout_width="0dp"
+            android:layout_height="?android:actionBarSize"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{bean.centerTitle}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fakeStatusBar" />
+
+        <TextView
+            android:id="@+id/tvRight"
+            rightIcon="@{bean.rightIcon}"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@{bean.rightText}"
+            tvColor="@{bean.rightColor}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fakeStatusBar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

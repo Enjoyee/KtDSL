@@ -5,7 +5,7 @@ import com.glimmer.mvvm.lifecycle.ActivityLifecycle
 import com.glimmer.mvvm.lifecycle.ApplicationLifecycle
 import com.glimmer.mvvm.provider.ContextProvider
 import com.glimmer.requestdsl.request.RequestDSL
-import com.glimmer.uutil.K
+import com.glimmer.uutil.KLog
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -26,7 +26,7 @@ object Hammer {
             retrofit(mConfig.mBuildRetrofit)
         }
         // log
-        K.loggable(mConfig.mShowLog.invoke()).logTag(mConfig.mLogTag.invoke()).buildLog()
+        KLog.loggable(mConfig.mShowLog.invoke()).logTag(mConfig.mLogTag.invoke()).buildLog()
     }
 
     class MVVMConfig {

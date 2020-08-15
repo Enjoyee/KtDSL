@@ -1,11 +1,9 @@
 package com.glimmer.mvvm.view
 
 interface IView {
-    fun getLayoutId(): Int
+    fun onInit()
 
-    fun initBefore() {}
+    fun initData()
 
-    fun initView() {}
-
-    fun initData() {}
+    fun initView()
 }

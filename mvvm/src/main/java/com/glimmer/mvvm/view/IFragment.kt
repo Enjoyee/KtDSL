@@ -1,4 +1,4 @@
 package com.glimmer.mvvm.view
 
-interface IFragment : IView {
+interface IFragment : IView, IStateView, ILoadingDialog {
 }

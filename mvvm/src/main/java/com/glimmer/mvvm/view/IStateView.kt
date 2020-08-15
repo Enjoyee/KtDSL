@@ -1,11 +1,11 @@
 package com.glimmer.mvvm.view
 
 interface IStateView {
-    fun showLoadingLayout()
+    fun showLoadingLayout() {}
 
-    fun showEmptyLayout()
+    fun showEmptyLayout() {}
 
-    fun showErrLayout()
+    fun showErrLayout() {}
 
-    fun showContentLayout()
+    fun showContentLayout() {}
 }

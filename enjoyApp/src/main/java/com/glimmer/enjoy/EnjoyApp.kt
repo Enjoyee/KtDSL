@@ -1,10 +1,9 @@
 package com.glimmer.enjoy
 
 import android.app.Application
-import com.glimmer.enjoy.home.HomeVM
 import com.glimmer.mvvm.Hammer
 import com.glimmer.mvvm.view.IApplication
-import com.glimmer.uutil.K
+import com.glimmer.uutil.KLog
 
 class EnjoyApp : Application(), IApplication {
 
@@ -21,8 +20,7 @@ class EnjoyApp : Application(), IApplication {
             logTag { "Enjoy" }
             baseUrl { "http://www.baidu.com" }
         }
-        getViewModel(HomeVM::class.java)
-        K.d("Application===>$this")
+        KLog.d("Application===>$this")
     }
 
 }

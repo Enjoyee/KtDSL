@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.bintray-release'
 
 def androidConfig = rootProject.ext.android
@@ -25,13 +26,29 @@ android {
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    dataBinding {
+        enabled true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        // work-runtime-ktx 2.1.0 and above now requires Java 8
+        jvmTarget = "1.8"
+        // Enable Coroutines and Flow APIs
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+    }
+    /////////////////////////////////////////////////////////////////////////////
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api 'androidx.appcompat:appcompat:1.1.0'
-    api 'androidx.core:core-ktx:1.3.0'
+    api 'androidx.core:core-ktx:1.3.1'
     ////////////////////////////////////////////////////////////////////////
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
@@ -40,6 +57,17 @@ dependencies {
     implementation project(":requestDSL")
     api project(":uutil")
     ////////////////////////////////////////////////////////////////////////
+    // kt图片加载
+    api 'io.coil-kt:coil:0.11.0'
+    ////////////////////////////////////////////////////////////////////////
+    // 协程
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
+    ////////////////////////////////////////////////////////////////////////
+    // page
+    api 'androidx.paging:paging-runtime:3.0.0-alpha04'
+    // 约束布局
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
 }
 
 publish {

@@ -4,12 +4,18 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.os.*
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import java.io.Serializable
 import java.lang.reflect.Field
 import java.lang.reflect.Method
@@ -59,6 +65,50 @@ fun Context.toastLong(msg: CharSequence?) {
 
 fun Context.toastLong(resId: Int) {
     toast(resId, Toast.LENGTH_LONG)
+}
+
+fun Context.isDebug(): Boolean {
+    return applicationContext.applicationInfo != null &&
+            applicationContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+}
+
+/**
+ * 关闭输入键盘
+ */
+fun Context.closeInputKeyboard() {
+    (this as? Activity)?.currentFocus?.let { focusView ->
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(focusView.windowToken, 0)
+        currentFocus?.clearFocus()
+    }
+}
+
+/**
+ * 弹出输入法
+ */
+fun Context.showInputKeyBord(remindView: View) {
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    remindView.requestFocus()
+    imm.showSoftInput(remindView, 0)
+}
+
+/*========================fragment========================*/
+/**
+ * 切换内容页
+ */
+private var mCurrentFragment: Fragment? = null
+fun FragmentActivity.switchFragmentView(@IdRes flContainer: Int, switchFragment: Fragment) {
+    val fragmentTransaction = supportFragmentManager.beginTransaction()
+    if (mCurrentFragment != null) {
+        if (switchFragment.isAdded) {
+            fragmentTransaction.hide(mCurrentFragment!!).show(switchFragment)
+        } else {
+            fragmentTransaction.hide(mCurrentFragment!!).add(flContainer, switchFragment)
+        }
+        fragmentTransaction.commitAllowingStateLoss()
+    } else {
+        fragmentTransaction.replace(flContainer, switchFragment).commitAllowingStateLoss()
+    }
+    mCurrentFragment = switchFragment
 }
 
 /*========================startActivity========================*/
@@ -190,5 +240,35 @@ fun String.decode(enc: String = "UTF-8"): String = URLDecoder.decode(this, enc)
 
 /*========================TextView========================*/
 fun TextView.str() = this.text.toString()
+
+/*=======================================================*/
+inline fun <T, R> T.doWithTry(block: (T) -> R) {
+    try {
+        block(this)
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+}
+
+/*=======================================================*/
+fun Any.logV() {
+    KLog.v(message = this.toString())
+}
+
+fun Any.logD() {
+    KLog.d(message = this.toString())
+}
+
+fun Any.logI() {
+    KLog.i(message = this.toString())
+}
+
+fun Any.logW() {
+    KLog.w(message = this.toString())
+}
+
+fun Any.logE() {
+    KLog.e(message = this.toString())
+}
 
 

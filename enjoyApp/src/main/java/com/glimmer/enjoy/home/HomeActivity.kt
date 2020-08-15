@@ -1,32 +1,49 @@
 package com.glimmer.enjoy.home
 
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import com.glimmer.enjoy.BR
 import com.glimmer.enjoy.R
-import com.glimmer.mvvm.annotation.BindViewModel
-import com.glimmer.mvvm.view.IMvvmActivity
-import com.glimmer.uutil.KHandler
+import com.glimmer.enjoy.databinding.ActivityHomeBinding
+import com.glimmer.enjoy.list.PeopleListActivity
+import com.glimmer.mvvm.config.BindingConfig
+import com.glimmer.mvvm.ui.MvvmActivity
 import com.glimmer.uutil.launchActivity
+import kotlin.reflect.KClass
 
-class HomeActivity : AppCompatActivity(), IMvvmActivity {
-    @BindViewModel
-    lateinit var homeVM: HomeVM
+class HomeActivity : MvvmActivity<HomeVM, ActivityHomeBinding>() {
 
-    private val handler by lazy { KHandler(this) }
+    override fun vMClass(): KClass<HomeVM> = HomeVM::class
 
-    override fun getLayoutId(): Int = R.layout.activity_home
-
-    override fun initData() {
-        super.initData()
-
-        launchActivity<HomeActivity>()
-
-        handler.postDelayed({
-            homeVM.onToast()
-        }, 5000)
+    override fun createBindingInfo(): BindingConfig.Info {
+        return BindingConfig.create {
+            layoutId(R.layout.activity_home)
+            viewModel(BR.viewModel, vm)
+            params(BR.clicker bind activity)
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun initView() {
+        super.initView()
+        addViewMarginStatusBar(dataBinding.ivBack)
+        filterMultiClickStrategy { listOf(dataBinding.tvTest2) }
+//        vm.beanToolBar.value = BeanToolBar(centerTitle = "测试标题12334", leftText = "左边", leftColor = R.color.colorPrimaryDark, bgColor = R.color.colorAccent, leftIcon = R.drawable.ic_back, rightText = "右边")
+//        vm.beanToolBar.value = BeanCommonToolBar().apply {
+//            centerTitle = "测试标题"
+//        }
+    }
+
+    override fun statusBarBlackFontMode(): Boolean = true
+
+    override fun viewClick(v: View) {
+        when (v) {
+            // 防重复点击
+            dataBinding.tvTest -> {
+                vm.change()
+                launchActivity<PeopleListActivity>()
+            }
+            // 普通
+            dataBinding.tvTest2 -> launchActivity<PeopleListActivity>()
+        }
     }
 
 }
