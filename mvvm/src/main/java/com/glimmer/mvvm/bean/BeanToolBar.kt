@@ -13,7 +13,9 @@ open class BeanToolBar(
     @DrawableRes open var rightIcon: Int? = null,
     open var rightText: String = "",
     @ColorRes open var rightColor: Int = android.R.color.white,
-    @ColorRes open var bgColor: Int? = android.R.color.black,
-    @ColorRes open var bgGradientColors: IntArray? = bgColor?.let { intArrayOf(it) },
+    @ColorRes open var bgColor: Int = android.R.color.black,
+    @ColorRes open var bgGradientColors: IntArray? = null,
     open var marginStatusBarHeight: Int = BarUtils.getStatusBarHeight()
-)
+) {
+    fun bgGradientColor() = if (bgGradientColors == null) intArrayOf(bgColor) else bgGradientColors
+}

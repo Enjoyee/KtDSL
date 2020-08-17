@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:padding="16dp"
+            android:visibility="gone"
             android:src="@drawable/ic_back_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,9 +43,8 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/inc_tool_bar"
-            android:visibility="gone"
-            app:bean="@{viewModel.beanToolBar}"
             app:clicker="@{clicker}"
+            app:vm="@{viewModel}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--        <ImageView-->
