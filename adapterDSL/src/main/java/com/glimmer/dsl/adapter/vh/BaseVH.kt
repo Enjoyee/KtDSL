@@ -1,4 +1,4 @@
-package com.glimmer.mvvm.adapter
+package com.glimmer.dsl.adapter.vh
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding

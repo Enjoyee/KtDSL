@@ -8,10 +8,10 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.containsValue
 import com.blankj.utilcode.util.BarUtils
-import com.glimmer.mvvm.common.Clicker
 import com.glimmer.mvvm.common.throttleLast
 import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.view.IActivity
+import com.glimmer.uutil.Clicker
 import com.glimmer.uutil.KHandler
 import com.glimmer.uutil.closeInputKeyboard
 import java.util.concurrent.TimeUnit
@@ -162,6 +162,6 @@ abstract class BaseActivity : AppCompatActivity(), IActivity, Clicker {
     /**==========================================================**/
     abstract fun createBindingInfo(): BindingConfig.Info
 
-    abstract fun viewClick(v: View)
+    open fun viewClick(v: View) {}
 
 }

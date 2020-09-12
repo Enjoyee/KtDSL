@@ -12,6 +12,9 @@ import retrofit2.Retrofit
 object Hammer {
     internal lateinit var mConfig: MVVMConfig
 
+    internal val configInit: Boolean
+        get() = ::mConfig.isInitialized
+
     internal fun init(application: Application) {
         ApplicationLifecycle.register(application)
         application.registerActivityLifecycleCallbacks(ActivityLifecycle)

@@ -7,7 +7,7 @@
 
         <variable
             name="clicker"
-            type="com.glimmer.mvvm.common.Clicker" />
+            type="com.glimmer.uutil.Clicker" />
 
         <variable
             name="bean"
@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/tvTeacherName"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:onClick="@{clicker}"

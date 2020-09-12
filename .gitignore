@@ -1,4 +1,5 @@
-/.idea/
-/enjoyApp/enjoyApp.iml
-/enjoyApp/enjoyApp.iml
-/.idea/
+*.iml
+.idea
+.gradle
+/local.properties
+build

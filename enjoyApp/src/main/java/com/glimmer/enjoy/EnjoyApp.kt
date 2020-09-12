@@ -3,7 +3,7 @@ package com.glimmer.enjoy
 import android.app.Application
 import com.glimmer.mvvm.Hammer
 import com.glimmer.mvvm.view.IApplication
-import com.glimmer.uutil.KLog
+import timber.log.Timber
 
 class EnjoyApp : Application(), IApplication {
 
@@ -16,11 +16,14 @@ class EnjoyApp : Application(), IApplication {
         INSTANCE = this
         Hammer.init {
             showLog { true }
-            showViewLifecycleLog { false }
+            showViewLifecycleLog { true }
             logTag { "Enjoy" }
             baseUrl { "http://www.baidu.com" }
         }
-        KLog.d("Application===>$this")
+        Timber.plant(Timber.DebugTree())
+
+        Timber.tag("测试")
+        Timber.d("cececec，%d,%d", 1, 2)
     }
 
 }

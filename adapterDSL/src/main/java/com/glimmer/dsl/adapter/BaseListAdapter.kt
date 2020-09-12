@@ -1,9 +1,12 @@
-package com.glimmer.mvvm.adapter
+package com.glimmer.dsl.adapter
 
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.glimmer.dsl.adapter.common.ItemDiffCallback
+import com.glimmer.dsl.adapter.vh.BaseVH
+import com.glimmer.dsl.adapter.vh.ViewHolderCreatorDsl
 import com.glimmer.uutil.doWithTry
 import kotlin.reflect.KClass
 
@@ -16,7 +19,7 @@ abstract class BaseListAdapter<VH : BaseVH<Any, *>>(callback: ItemDiffCallback<A
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         // DSL传参<优先>
         typeVHs[viewType]?.let { vh ->
-            return vh.createViewHolder(parent) as VH
+            return vh.createVH(parent) as VH
         }
         // 外部直接实现创建VH方式
         createVH(parent, viewType)?.let { return it as VH }
@@ -46,6 +49,9 @@ abstract class BaseListAdapter<VH : BaseVH<Any, *>>(callback: ItemDiffCallback<A
     }
 
     /**==========================================================**/
+
+    fun getItemData(position: Int) = getItem(position)
+
     open fun forViewType(bean: Any, position: Int): Int? = null
 
     open fun createVH(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? = null

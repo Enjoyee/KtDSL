@@ -7,10 +7,10 @@ import android.view.View
 import androidx.core.util.containsValue
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.glimmer.mvvm.common.Clicker
 import com.glimmer.mvvm.common.throttleLast
 import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.view.IFragment
+import com.glimmer.uutil.Clicker
 import com.glimmer.uutil.KHandler
 import com.glimmer.uutil.KLog
 import java.util.concurrent.TimeUnit
@@ -31,6 +31,7 @@ abstract class BaseFragment : Fragment(), IFragment, Clicker {
      * 防止内存泄漏Handler
      */
     val handler by lazy { KHandler(this) }
+    val fragment: BaseFragment by lazy { this }
     lateinit var bindActivity: FragmentActivity
 
     /**
@@ -155,5 +156,5 @@ abstract class BaseFragment : Fragment(), IFragment, Clicker {
     /**==========================================================**/
     abstract fun createBindingInfo(): BindingConfig.Info
 
-    abstract fun viewClick(v: View)
+    open fun viewClick(v: View) {}
 }

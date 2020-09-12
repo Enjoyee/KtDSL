@@ -1,4 +1,4 @@
-package com.glimmer.mvvm.adapter
+package com.glimmer.dsl.adapter.common
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

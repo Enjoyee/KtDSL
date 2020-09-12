@@ -10,13 +10,17 @@
 
         <variable
             name="clicker"
-            type="com.glimmer.mvvm.common.Clicker" />
+            type="com.glimmer.uutil.Clicker" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/inc_tool_bar"/>
 
         <Button
             android:id="@+id/btRefresh"

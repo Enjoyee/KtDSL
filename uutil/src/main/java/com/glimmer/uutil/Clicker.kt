@@ -1,4 +1,4 @@
-package com.glimmer.mvvm.common
+package com.glimmer.uutil
 
 import android.view.View
 

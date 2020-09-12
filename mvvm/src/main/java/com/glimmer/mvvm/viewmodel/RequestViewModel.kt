@@ -1,12 +1,9 @@
 package com.glimmer.mvvm.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.glimmer.requestdsl.request.APIDsl
-import com.glimmer.uutil.KLog
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 open class RequestViewModel : ViewModel() {
     private val apiException = MutableLiveData<Throwable>()
@@ -82,33 +79,5 @@ open class RequestViewModel : ViewModel() {
         }
     }
 
-    /*=======================================================================*/
-    protected fun <Response> apiLiveData(
-        context: CoroutineContext = EmptyCoroutineContext,
-        timeoutInMs: Long = 3000L,
-        request: suspend () -> Response
-    ): LiveData<Result<Response>> {
-        return liveData(context, timeoutInMs) {
-            emit(Result.Loading())
-            try {
-                emit(withContext(Dispatchers.IO) {
-                    Result.Response(request())
-                })
-            } catch (e: Exception) {
-                KLog.e(e, "网络请求出错")
-                emit(Result.Error(e))
-            } finally {
-                emit(Result.Finish())
-            }
-        }
-    }
-
-    /*=================Result必须加泛型 不然response的泛型就会被擦除=================*/
-    sealed class Result<T> {
-        class Loading<T> : Result<T>()
-        data class Response<T>(val response: T) : Result<T>()
-        data class Error<T>(val exception: Exception) : Result<T>()
-        class Finish<T> : Result<T>()
-    }
 }
 

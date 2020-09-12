@@ -1,5 +1,6 @@
+include ':adapterDSL'
 include ':requestDSL', ':requestrx'
-rootProject.name='KtDSL'
 include ':enjoyApp'
 include ':uutil'
 include ':mvvm'
+rootProject.name='KtDSL'

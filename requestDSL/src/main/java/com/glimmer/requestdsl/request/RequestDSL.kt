@@ -22,7 +22,7 @@ object RequestDSL {
     fun init(appContext: Context, baseUrl: String, requestConfig: (RequestConfig.() -> Unit)? = null) {
         mAppContext = appContext.applicationContext
         mHeaders = HeaderInterceptor()
-        initRetrofit(requestConfig, baseUrl)
+        initConfig(requestConfig, baseUrl)
     }
 
     /*=======================================================================*/
@@ -36,7 +36,7 @@ object RequestDSL {
     }
 
     /*=======================================================================*/
-    private fun getDefaultOkHttpBuilder(appContext: Context): OkHttpClient.Builder {
+    fun getDefaultOkHttpBuilder(appContext: Context): OkHttpClient.Builder {
         return OkHttpClient.Builder()
             .cache(Cache(appContext.cacheDir, 10 * 1024 * 1024L))
             .addInterceptor(mHeaders)
@@ -45,20 +45,29 @@ object RequestDSL {
             .writeTimeout(60, TimeUnit.SECONDS)
     }
 
-    private fun initRetrofit(requestConfig: (RequestConfig.() -> Unit)?, baseUrl: String) {
+    private fun initConfig(requestConfig: (RequestConfig.() -> Unit)?, baseUrl: String) {
         // dsl
         val dsl = if (requestConfig != null) RequestConfig().also(requestConfig) else null
         // OKHttp Builder
+        initOkHttpConfig(dsl)
+        // Retrofit Builder
+        initRetrofitConfig(dsl, baseUrl)
+    }
+
+    private fun initOkHttpConfig(config: RequestConfig?) {
         val defaultOkHttpBuilder = getDefaultOkHttpBuilder(mAppContext)
-        mOkHttpBuilder = dsl?.mBuildOkHttp?.invoke(defaultOkHttpBuilder) ?: defaultOkHttpBuilder
-        mLoggable = dsl?.mShowLog?.invoke() ?: true
+        mOkHttpBuilder = config?.mBuildOkHttp?.invoke(defaultOkHttpBuilder) ?: defaultOkHttpBuilder
+        mLoggable = config?.mShowLog?.invoke() ?: true
         mOkHttpBuilder.addInterceptor(LoggingInterceptor())
+    }
+
+    private fun initRetrofitConfig(config: RequestConfig?, baseUrl: String) {
         // Retrofit Builder
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(CustomizeGsonConverterFactory.create())
             .client(mOkHttpBuilder.build())
-        mRetrofitBuilder = dsl?.mBuildRetrofit?.invoke(retrofitBuilder) ?: retrofitBuilder
+        mRetrofitBuilder = config?.mBuildRetrofit?.invoke(retrofitBuilder) ?: retrofitBuilder
     }
 
     /*=======================================================================*/

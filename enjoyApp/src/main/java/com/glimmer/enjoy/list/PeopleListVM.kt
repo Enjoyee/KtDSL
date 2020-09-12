@@ -2,6 +2,8 @@ package com.glimmer.enjoy.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.glimmer.enjoy.bean.Student
 import com.glimmer.enjoy.bean.Teacher
 import com.glimmer.mvvm.viewmodel.BaseVM
@@ -43,5 +45,11 @@ class PeopleListVM : BaseVM() {
             _peopleList.value = it
         }
     }
+
+    fun loadPageList() =
+        Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = true),
+            pagingSourceFactory = { StudentDataSource() }
+        ).flow
 
 }

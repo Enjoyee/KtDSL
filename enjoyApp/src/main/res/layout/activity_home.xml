@@ -6,12 +6,12 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="vm"
             type="com.glimmer.enjoy.home.HomeVM" />
 
         <variable
             name="clicker"
-            type="com.glimmer.mvvm.common.Clicker" />
+            type="com.glimmer.uutil.Clicker" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,16 +35,16 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:padding="16dp"
-            android:visibility="gone"
             android:src="@drawable/ic_back_white"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/inc_tool_bar"
+            app:bean="@{vm.beanToolBar}"
             app:clicker="@{clicker}"
-            app:vm="@{viewModel}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--        <ImageView-->
@@ -66,7 +66,7 @@
             android:onClick="@{clicker}"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@{viewModel.testData}"
+            android:text="@{vm.testData}"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -85,7 +85,7 @@
             android:onClick="@{clicker}"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@{viewModel.testData1}"
+            android:text="@{vm.testData1}"
             android:textColor="@android:color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

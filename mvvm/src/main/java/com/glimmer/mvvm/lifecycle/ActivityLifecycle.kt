@@ -10,54 +10,58 @@ import com.glimmer.uutil.KLog
 
 object ActivityLifecycle : Application.ActivityLifecycleCallbacks {
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onCreate", activity?.javaClass?.canonicalName)
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onCreate", activity.javaClass.canonicalName)
         }
-        activity?.let { ActivityManager.add(it) }
+        ActivityManager.add(activity)
         registerFragmentCallback(activity)
     }
 
-    private fun registerFragmentCallback(activity: Activity?) {
+    private fun registerFragmentCallback(activity: Activity) {
         if (activity !is FragmentActivity) return
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(FragmentLifecycle, true)
     }
 
-    override fun onActivityStarted(activity: Activity?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onStart", activity?.javaClass?.canonicalName)
+    override fun onActivityStarted(activity: Activity) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onStart", activity.javaClass.canonicalName)
         }
     }
 
-    override fun onActivityResumed(activity: Activity?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onResume", activity?.javaClass?.canonicalName)
+    override fun onActivityResumed(activity: Activity) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onResume", activity.javaClass.canonicalName)
         }
     }
 
-    override fun onActivityPaused(activity: Activity?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onPause", activity?.javaClass?.canonicalName)
+    override fun onActivityPaused(activity: Activity) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onPause", activity.javaClass.canonicalName)
         }
     }
 
-    override fun onActivityStopped(activity: Activity?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onStop", activity?.javaClass?.canonicalName)
+    override fun onActivityStopped(activity: Activity) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onStop", activity.javaClass.canonicalName)
         }
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onDestroy", activity?.javaClass?.canonicalName)
+    override fun onActivityDestroyed(activity: Activity) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onDestroy", activity.javaClass.canonicalName)
         }
-        activity?.let { ActivityManager.remove(it) }
+        ActivityManager.remove(activity)
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
-        if (Hammer.mConfig.mShowViewLifecycleLog.invoke()) {
-            KLog.v("Activity界面：%s onSaveInstanceState", activity?.javaClass?.canonicalName)
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        if (showViewLifecycleLog()) {
+            KLog.v("Activity界面：%s onSaveInstanceState", activity.javaClass.canonicalName)
         }
+    }
+
+    private fun showViewLifecycleLog(): Boolean {
+        return if (Hammer.configInit) Hammer.mConfig.mShowViewLifecycleLog.invoke() else false
     }
 
 }

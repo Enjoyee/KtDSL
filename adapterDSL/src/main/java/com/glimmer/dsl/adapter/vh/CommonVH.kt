@@ -1,4 +1,4 @@
-package com.glimmer.mvvm.common
+package com.glimmer.dsl.adapter.vh
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.glimmer.mvvm.adapter.BaseVH
+import com.glimmer.uutil.Clicker
 
 class CommonVH<BEAN : Any, VB : ViewDataBinding>(viewGroup: ViewGroup, @LayoutRes viewLayout: Int, viewDataBinding: VB = vhBinding(viewGroup, viewLayout)) : BaseVH<BEAN, VB>(viewDataBinding), Clicker {
     private val dataBinding = viewDataBinding

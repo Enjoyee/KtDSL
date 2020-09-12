@@ -30,6 +30,7 @@ object KLog {
         Logger.addLogAdapter(
             object : AndroidLogAdapter(
                 PrettyFormatStrategy.newBuilder()
+                    .showThreadInfo(false)
                     .methodCount(0)
                     .tag(logTag)
                     .build()
@@ -54,57 +55,57 @@ object KLog {
         }
     }
 
-    fun d(@NonNull message: String, @Nullable vararg args: Any?) {
+    fun d(@NonNull message: String, @Nullable vararg args: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.d(message, *args)
+            Logger.t(tag).d(message, *args)
         }
     }
 
-    fun d(@Nullable `object`: Any?) {
+    fun d(@Nullable `object`: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.d(`object`)
+            Logger.t(tag).d(`object`)
         }
     }
 
-    fun e(@Nullable throwable: Throwable? = null, @NonNull message: String, @Nullable vararg args: Any?) {
+    fun e(@Nullable throwable: Throwable? = null, @NonNull message: String, @Nullable vararg args: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.e(throwable, message, *args)
+            Logger.t(tag).e(throwable, message, *args)
         }
     }
 
-    fun i(@NonNull message: String, @Nullable vararg args: Any?) {
+    fun i(@NonNull message: String, @Nullable vararg args: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.i(message, *args)
+            Logger.t(tag).i(message, *args)
         }
     }
 
-    fun v(@NonNull message: String, @Nullable vararg args: Any?) {
+    fun v(@NonNull message: String, @Nullable vararg args: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.v(message, *args)
+            Logger.t(tag).v(message, *args)
         }
     }
 
-    fun w(@NonNull message: String, @Nullable vararg args: Any?) {
+    fun w(@NonNull message: String, @Nullable vararg args: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.w(message, *args)
+            Logger.t(tag).w(message, *args)
         }
     }
 
-    fun wtf(@NonNull message: String, @Nullable vararg args: Any?) {
+    fun wtf(@NonNull message: String, @Nullable vararg args: Any?, tag: String? = null) {
         checkLoggable {
-            Logger.wtf(message, *args)
+            Logger.t(tag).wtf(message, *args)
         }
     }
 
-    fun json(@Nullable json: String?) {
+    fun json(@Nullable json: String?, tag: String? = null) {
         checkLoggable {
-            Logger.json(json)
+            Logger.t(tag).json(json)
         }
     }
 
-    fun xml(@Nullable xml: String?) {
+    fun xml(@Nullable xml: String?, tag: String? = null) {
         checkLoggable {
-            Logger.xml(xml)
+            Logger.t(tag).xml(xml)
         }
     }
 

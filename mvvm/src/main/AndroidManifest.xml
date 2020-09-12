@@ -4,7 +4,7 @@
     <application>
         <provider
             android:name=".provider.HammerContentProvider"
-            android:authorities="${applicationId}.mvvm-init-provider-glimmer"
+            android:authorities="${applicationId}.provider"
             android:exported="false" />
     </application>
 </manifest>

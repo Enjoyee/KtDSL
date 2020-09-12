@@ -30,38 +30,38 @@ inline fun throttleLast(block: () -> Unit, duration: Long = 500, unit: TimeUnit 
 }
 
 /**=========================================================**/
-fun LifecycleOwner.ui(block: () -> Unit) {
+fun LifecycleOwner.ui(block: suspend () -> Unit) {
     lifecycleScope.launch(Dispatchers.Main) {
         block.invoke()
     }
 }
 
-fun LifecycleOwner.io(block: () -> Unit) {
+fun LifecycleOwner.io(block: suspend () -> Unit) {
     lifecycleScope.launch(Dispatchers.IO) {
         block.invoke()
     }
 }
 
-fun LifecycleOwner.launch(block: () -> Unit) {
+fun LifecycleOwner.launch(block: suspend () -> Unit) {
     lifecycleScope.launch(Dispatchers.Default) {
         block.invoke()
     }
 }
 
 /**=========================================================**/
-fun ViewModel.ui(block: () -> Unit) {
+fun ViewModel.ui(block: suspend () -> Unit) {
     viewModelScope.launch(Dispatchers.Main) {
         block.invoke()
     }
 }
 
-fun ViewModel.io(block: () -> Unit) {
+fun ViewModel.io(block: suspend () -> Unit) {
     viewModelScope.launch(Dispatchers.IO) {
         block.invoke()
     }
 }
 
-fun ViewModel.launch(block: () -> Unit) {
+fun ViewModel.launch(block: suspend () -> Unit) {
     viewModelScope.launch(Dispatchers.Default) {
         block.invoke()
     }

@@ -6,68 +6,72 @@
 
         <variable
             name="clicker"
-            type="com.glimmer.mvvm.common.Clicker" />
+            type="com.glimmer.uutil.Clicker" />
 
         <variable
-            name="vm"
-            type="com.glimmer.mvvm.viewmodel.BaseVM" />
+            name="bean"
+            type="com.glimmer.mvvm.bean.BeanToolBar" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        bgGradientColors="@{vm.beanToolBar.bgGradientColor()}"
+        bgGradientColors="@{bean.bgGradientColor()}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Space
-            android:id="@+id/fakeStatusBar"
-            height="@{vm.beanToolBar.marginStatusBarHeight}"
+            android:id="@id/fakeStatusBar"
+            height="@{bean.marginStatusBarHeight}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvLeft"
-            leftIcon="@{vm.beanToolBar.leftIcon}"
-            tvColor="@{vm.beanToolBar.leftColor}"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="@{vm.beanToolBar.leftText}"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fakeStatusBar" />
-
-        <TextView
-            android:id="@+id/tvCenter"
+            android:id="@id/tvCenter"
             style="@style/toolBarCenterTv"
-            tvColor="@{vm.beanToolBar.centerColor}"
+            tvColor="@{bean.centerColor}"
             android:layout_width="0dp"
             android:layout_height="?android:actionBarSize"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
-            android:text="@{vm.beanToolBar.centerTitle}"
+            android:text="@{bean.centerTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fakeStatusBar" />
+            app:layout_constraintTop_toBottomOf="@id/fakeStatusBar" />
 
         <TextView
-            android:id="@+id/tvRight"
-            rightIcon="@{vm.beanToolBar.rightIcon}"
+            android:id="@id/tvLeft"
+            leftIcon="@{bean.leftIcon}"
+            tvColor="@{bean.leftColor}"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:drawablePadding="6dp"
             android:gravity="center_vertical"
+            android:onClick="@{clicker}"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@{vm.beanToolBar.rightText}"
-            tvColor="@{vm.beanToolBar.rightColor}"
+            android:text="@{bean.leftText}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fakeStatusBar" />
+
+        <TextView
+            android:id="@id/tvRight"
+            rightIcon="@{bean.rightIcon}"
+            tvColor="@{bean.rightColor}"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:onClick="@{clicker}"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@{bean.rightText}"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fakeStatusBar" />
+            app:layout_constraintTop_toBottomOf="@id/fakeStatusBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

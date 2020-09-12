@@ -3,9 +3,9 @@ package com.glimmer.enjoy.adapter
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.glimmer.dsl.adapter.BaseListAdapter
+import com.glimmer.dsl.adapter.vh.BaseVH
 import com.glimmer.enjoy.bean.Teacher
-import com.glimmer.mvvm.adapter.BaseListAdapter
-import com.glimmer.mvvm.adapter.BaseVH
 
 class PeopleAdapter : BaseListAdapter<BaseVH<Any, ViewDataBinding>>() {
 
