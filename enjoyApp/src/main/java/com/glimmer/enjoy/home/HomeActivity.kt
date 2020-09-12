@@ -35,8 +35,6 @@ class HomeActivity : MvvmActivity<HomeVM, ActivityHomeBinding>() {
             leftIcon = R.drawable.ic_back
             centerTitle = "测试标题"
         }
-
-        "测试".logE("测试稿")
     }
 
     override fun toolBarLeftClick(v: View) {
