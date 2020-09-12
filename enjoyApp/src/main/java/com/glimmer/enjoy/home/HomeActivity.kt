@@ -9,7 +9,6 @@ import com.glimmer.enjoy.list.PeopleListActivity
 import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.ui.MvvmActivity
 import com.glimmer.uutil.launchActivity
-import com.glimmer.uutil.logE
 import kotlin.reflect.KClass
 
 class HomeActivity : MvvmActivity<HomeVM, ActivityHomeBinding>() {
