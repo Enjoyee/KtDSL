@@ -7,11 +7,11 @@ import com.glimmer.enjoy.bean.BeanCommonToolBar
 import com.glimmer.enjoy.databinding.ActivityHomeBinding
 import com.glimmer.enjoy.list.PeopleListActivity
 import com.glimmer.mvvm.config.BindingConfig
-import com.glimmer.mvvm.ui.MvvmActivity
+import com.glimmer.mvvm.ui.MVVMActivity
 import com.glimmer.uutil.launchActivity
 import kotlin.reflect.KClass
 
-class HomeActivity : MvvmActivity<HomeVM, ActivityHomeBinding>() {
+class HomeActivity : MVVMActivity<HomeVM, ActivityHomeBinding>() {
 
     override fun vMClass(): KClass<HomeVM> = HomeVM::class
 

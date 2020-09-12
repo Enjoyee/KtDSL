@@ -11,11 +11,11 @@ import com.glimmer.enjoy.databinding.ActivityPeopleListBinding
 import com.glimmer.enjoy.databinding.ItemStudentBinding
 import com.glimmer.mvvm.common.launch
 import com.glimmer.mvvm.config.BindingConfig
-import com.glimmer.mvvm.ui.MvvmActivity
+import com.glimmer.mvvm.ui.MVVMActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.reflect.KClass
 
-class PeopleListActivity : MvvmActivity<PeopleListVM, ActivityPeopleListBinding>() {
+class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>() {
 
     override fun vMClass(): KClass<PeopleListVM> = PeopleListVM::class
 

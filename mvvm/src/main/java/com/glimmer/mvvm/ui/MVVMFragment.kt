@@ -12,7 +12,7 @@ import com.glimmer.mvvm.view.IMvvmFragment
 import com.glimmer.mvvm.viewmodel.BaseVM
 import kotlin.reflect.KClass
 
-abstract class MvvmFragment<VM : BaseVM, DB : ViewDataBinding> : BaseFragment(), IMvvmFragment {
+abstract class MVVMFragment<VM : BaseVM, DB : ViewDataBinding> : BaseFragment(), IMvvmFragment {
     /**==========================================================**/
     lateinit var binding: DB
     val vm: VM by lazy { ViewModelProvider(this, defaultViewModelProviderFactory).get(vMClass().java) }
