@@ -5,6 +5,7 @@ import com.glimmer.requestdsl.gson.CustomizeGsonConverterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import java.net.Proxy
 import java.util.concurrent.TimeUnit
 
 object RequestDSL {
@@ -19,7 +20,11 @@ object RequestDSL {
         init(appContext, "", requestConfig)
     }
 
-    fun init(appContext: Context, baseUrl: String, requestConfig: (RequestConfig.() -> Unit)? = null) {
+    fun init(
+        appContext: Context,
+        baseUrl: String,
+        requestConfig: (RequestConfig.() -> Unit)? = null
+    ) {
         mAppContext = appContext.applicationContext
         mHeaders = HeaderInterceptor()
         initConfig(requestConfig, baseUrl)
@@ -40,6 +45,7 @@ object RequestDSL {
         return OkHttpClient.Builder()
             .cache(Cache(appContext.cacheDir, 10 * 1024 * 1024L))
             .addInterceptor(mHeaders)
+            .proxy(Proxy.NO_PROXY)
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)

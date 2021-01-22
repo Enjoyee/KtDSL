@@ -6,6 +6,7 @@ import com.glimmer.enjoy.R
 import com.glimmer.enjoy.bean.BeanCommonToolBar
 import com.glimmer.enjoy.databinding.ActivityHomeBinding
 import com.glimmer.enjoy.list.PeopleListActivity
+import com.glimmer.enjoy.test.showDSLDialog
 import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.ui.MVVMActivity
 import com.glimmer.uutil.launchActivity
@@ -47,6 +48,16 @@ class HomeActivity : MVVMActivity<HomeVM, ActivityHomeBinding>() {
             dataBinding.tvTest -> {
                 vm.change()
                 launchActivity<PeopleListActivity>()
+
+                showDSLDialog {
+                    title { "标题" }
+                    message { "弹窗内容" }
+                    positiveText { "确定" }
+                    positiveClick { println("点击确定") }
+                    negativeText { "取消" }
+                    negativeClick { println("点击取消") }
+                }
+
             }
             // 普通
             dataBinding.tvTest2 -> launchActivity<PeopleListActivity>()

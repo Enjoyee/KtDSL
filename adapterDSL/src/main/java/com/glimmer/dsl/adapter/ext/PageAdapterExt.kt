@@ -19,16 +19,12 @@ class PageAdapterSetup internal constructor(private val recyclerView: RecyclerVi
     fun layoutManager(init: PageAdapterSetup.() -> RecyclerView.LayoutManager) = apply {
         recyclerView.layoutManager = init().apply {
             if (this is GridLayoutManager) {
-                spanLookUp(this)
-            }
-        }
-    }
-
-    private fun spanLookUp(layoutManager: GridLayoutManager) {
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                with(adapter) {
-                    return typeVHs[getItemViewType(position)]?.spanSize?.invoke() ?: 1
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        with(adapter) {
+                            return typeVHs[getItemViewType(position)]?.spanSize?.invoke() ?: 1
+                        }
+                    }
                 }
             }
         }

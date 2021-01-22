@@ -50,10 +50,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     /////////////////////////////////////////////////
     // page
-    api 'androidx.paging:paging-runtime:3.0.0-alpha06'
+    api 'androidx.paging:paging-runtime-ktx:3.0.0-alpha06'
     /////////////////////////////////////////////////
 //    api project(":uutil")
-    api 'com.glimmer:uutils:0.1.13'
+    api 'com.glimmer:uutils:0.1.16'
 }
 
 publish {

@@ -1,9 +1,11 @@
 package com.glimmer.enjoy
 
 import android.app.Application
+import com.glimmer.enjoy.fund.repository.ToStringConverterFactory
 import com.glimmer.mvvm.Hammer
 import com.glimmer.mvvm.view.IApplication
-import timber.log.Timber
+import com.glimmer.requestdsl.request.RequestDSL
+import retrofit2.Retrofit
 
 class EnjoyApp : Application(), IApplication {
 
@@ -16,14 +18,15 @@ class EnjoyApp : Application(), IApplication {
         INSTANCE = this
         Hammer.init {
             showLog { true }
-            showViewLifecycleLog { true }
-            logTag { "Enjoy" }
-            baseUrl { "http://www.baidu.com" }
+            showViewLifecycleLog { false }
+            logTag { "FundApp" }
+            retrofit {
+                Retrofit.Builder()
+                    .baseUrl("http://www.github.com")
+                    .addConverterFactory(ToStringConverterFactory())
+                    .client(RequestDSL.getDefaultOkHttpBuilder(INSTANCE).build())
+            }
         }
-        Timber.plant(Timber.DebugTree())
-
-        Timber.tag("测试")
-        Timber.d("cececec，%d,%d", 1, 2)
     }
 
 }

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.glimmer.enjoy">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".EnjoyApp"
         android:allowBackup="true"
@@ -22,6 +24,13 @@
         </activity>
 
         <activity android:name=".list.PeopleListActivity" />
+
+        <!--基金-->
+        <activity android:name=".fund.ui.FundActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

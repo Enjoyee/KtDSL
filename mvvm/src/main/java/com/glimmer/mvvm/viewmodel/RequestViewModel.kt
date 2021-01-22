@@ -15,42 +15,6 @@ open class RequestViewModel : ViewModel() {
     }
 
     /*=======================================================================*/
-    @JvmOverloads
-    protected fun <Response> apiCallback(
-        onStart: (() -> Unit)? = null,
-        request: suspend () -> Response,
-        onResponse: ((Response) -> Unit),
-        onError: ((Exception) -> Unit)? = null,
-        onFinally: (() -> Unit)? = null
-    ) {
-        api<Response> {
-            onStart {
-                apiLoading.value = true
-                onStart?.invoke()
-            }
-
-            onRequest {
-                request.invoke()
-            }
-
-            onResponse {
-                onResponse.invoke(it)
-            }
-
-            onError { error ->
-                apiLoading.value = false
-                apiException.value = error
-                onError?.invoke(error)
-            }
-
-            onFinally {
-                apiLoading.value = false
-                onFinally?.invoke()
-            }
-        }
-    }
-
-    /*=======================================================================*/
     protected fun <Response> apiDsl(apiDSL: APIDsl<Response>.() -> Unit) {
         api<Response> {
             onStart {

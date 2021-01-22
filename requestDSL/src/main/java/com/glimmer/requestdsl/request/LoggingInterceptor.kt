@@ -12,6 +12,7 @@ import java.net.HttpURLConnection
 import java.nio.charset.StandardCharsets
 import java.nio.charset.UnsupportedCharsetException
 import java.util.concurrent.TimeUnit
+import kotlin.jvm.Throws
 
 class LoggingInterceptor : Interceptor {
 

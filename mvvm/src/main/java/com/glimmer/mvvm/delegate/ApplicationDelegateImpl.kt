@@ -5,10 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import com.glimmer.mvvm.view.IApplication
+import com.tencent.mmkv.MMKV
 
 internal class ApplicationDelegateImpl(private val application: Application) : IApplication, ApplicationDelegate {
     private val mViewModelStore by lazy { ViewModelStore() }
     private val mViewModelProviderFactory by lazy { ViewModelProvider.AndroidViewModelFactory(application) }
+
+    init {
+        MMKV.initialize(application)
+    }
 
     override fun getViewModelStore(): ViewModelStore = mViewModelStore
 

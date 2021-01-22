@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 
 class ViewHolderCreatorDsl<BEAN : Any, VB : ViewDataBinding>(@LayoutRes private val layoutRes: Int) {
-    internal lateinit var isViewType: ((Any?) -> Boolean)
+    internal var isViewType: ((Any?) -> Boolean) = { true }
     internal var spanSize: (() -> Int)? = null
     private var setUpData: (CommonVH<BEAN, VB>.() -> Unit)? = null
 
