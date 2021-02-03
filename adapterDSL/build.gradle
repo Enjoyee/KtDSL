@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
 
 def androidConfig = rootProject.ext.android
 
@@ -60,7 +61,7 @@ publish {
     userOrg = 'enjoyeetime'
     groupId = 'com.glimmer'
     artifactId = 'adapterDSL'
-    publishVersion = '0.0.7'
+    publishVersion = '0.0.8'
     desc = 'this is the dsl adapter library'
-    website = ''
+    website = 'https://github.com/Enjoyee/KtDSL'
 }
