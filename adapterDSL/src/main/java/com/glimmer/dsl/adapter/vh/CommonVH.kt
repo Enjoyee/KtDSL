@@ -34,23 +34,26 @@ class CommonVH<BEAN : Any, VB : ViewDataBinding>(
         setUp?.invoke(bean, position)
     }
 
-    fun setData(setUp: ((bean: BEAN, position: Int) -> Unit)?) {
-        this.setUp = setUp
-    }
-
-    fun variableData(
-        beanVariableId: Int,
-        setUp: ((bean: BEAN, position: Int) -> Unit)? = null
-    ) {
-        this.beanVariableId = beanVariableId
-        this.setUp = setUp
-    }
-
     override fun onClick(v: View?) {
         v?.let {
             clicker?.invoke(it, bean, itemPosition)
             refreshItem()
         }
+    }
+
+    /**
+     * ===============================================================
+     */
+    fun setData(setUp: ((bean: BEAN, position: Int) -> Unit)?) {
+        this.setUp = setUp
+    }
+
+    fun bindData(
+        beanVariableId: Int,
+        setUp: ((bean: BEAN, position: Int) -> Unit)? = null
+    ) {
+        this.beanVariableId = beanVariableId
+        this.setUp = setUp
     }
 
     fun clicker(clickerVariableId: Int, clicker: ((View, BEAN, Int) -> Unit)?) {

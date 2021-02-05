@@ -1,6 +1,7 @@
 package com.glimmer.enjoy.list
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.glimmer.enjoy.bean.Student
 import java.util.*
 
@@ -23,5 +24,7 @@ class StudentDataSource : PagingSource<Int, Any>() {
         }
         return list
     }
+
+    override fun getRefreshKey(state: PagingState<Int, Any>): Int = STARTING_PAGE_INDEX
 
 }

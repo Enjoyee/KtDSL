@@ -1,6 +1,9 @@
 package com.glimmer.enjoy.fund.ui
 
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import com.glimmer.dsl.adapter.decroation.GridDividerDecoration
+import com.glimmer.dsl.adapter.decroation.LinearLayoutDividerDecoration
 import com.glimmer.dsl.adapter.ext.attachAdapter
 import com.glimmer.dsl.adapter.ext.submitDataSource
 import com.glimmer.enjoy.BR
@@ -41,10 +44,15 @@ class FundActivity : MVVMActivity<FundVM, ActivityFundBinding>() {
     }
 
     private fun initRv() {
+        dataBinding.rvFund.addItemDecoration(
+            GridDividerDecoration(activity, dividerPx = 50)
+        )
         dataBinding.rvFund.attachAdapter {
+            layoutManager { GridLayoutManager(activity, 3) }
+//            layoutManager { LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false) }
             listItem {
                 addItem<BeanTTFundInfo, RvItemFundBinding>(R.layout.rv_item_fund) {
-                    bindVH { variableData(BR.rvBean) }
+                    createVH { bindData(BR.rvBean) }
                 }
             }
         }

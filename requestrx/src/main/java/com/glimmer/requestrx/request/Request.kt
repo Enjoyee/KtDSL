@@ -65,7 +65,7 @@ object Request {
     }
 
     /*=======================================================================*/
-    class Builder constructor() {
+    class Builder {
         internal var mShowLog: Boolean = true
         internal var mBuildOkHttp: OkHttpClient.Builder? = null
         internal var mBuildRetrofit: Retrofit.Builder? = null

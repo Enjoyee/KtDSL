@@ -37,10 +37,6 @@ class HomeActivity : MVVMActivity<HomeVM, ActivityHomeBinding>() {
         }
     }
 
-    override fun toolBarLeftClick(v: View) {
-        super.toolBarLeftClick(v)
-    }
-
     override fun viewClick(v: View) {
         super.viewClick(v)
         when (v) {

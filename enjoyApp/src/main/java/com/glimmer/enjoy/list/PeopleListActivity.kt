@@ -18,20 +18,16 @@ import com.glimmer.mvvm.common.launch
 import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.ui.MVVMActivity
 import com.glimmer.uutil.anno.LocalKV
-import com.glimmer.uutil.anno.UInject
-import com.glimmer.uutil.delegateString
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.reflect.KClass
 
 class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>() {
-    private var testStr by delegateString("123", "空的")
     @LocalKV(key = "1234", "默认")
     var testStr2: String? = null
 
     override fun vMClass(): KClass<PeopleListVM> = PeopleListVM::class
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        UInject.inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -53,7 +49,6 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
 
     override fun initData() {
         super.initData()
-        testStr = "改了改了"
         testStr2 = "1233332"
     }
 
@@ -67,8 +62,8 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
                 addItem<Teacher, ItemTeacherBinding>(R.layout.item_teacher) {
                     isViewType { it is Teacher }
                     spanSizeUp { 2 }
-                    bindVH {
-                        variableData(BR.bean)
+                    createVH {
+                        bindData(BR.bean)
                         clicker(BR.clicker) { _, bean, _ ->
                             bean.name = "点击了"
                             refreshItem()
@@ -79,7 +74,7 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
                 addItem<Student, ItemStudentBinding>(R.layout.item_student) {
                     isViewType { it is Student }
                     spanSizeUp { 1 }
-                    bindVH {
+                    createVH {
                         setData { bean, _ ->
                             vhDataBinding.tvStudentName.text = bean.fullText()
                         }

@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.github.panpf.bintray-publish'
 
 def androidConfig = rootProject.ext.android
@@ -38,9 +36,6 @@ android {
     kotlinOptions {
         // work-runtime-ktx 2.1.0 and above now requires Java 8
         jvmTarget = "1.8"
-        // Enable Coroutines and Flow APIs
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
     }
     /////////////////////////////////////////////////////////////////////////////
 
@@ -51,17 +46,19 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     /////////////////////////////////////////////////
     // page
-    api 'androidx.paging:paging-runtime-ktx:3.0.0-alpha06'
+    api('androidx.paging:paging-runtime-ktx:3.0.0-alpha13') {
+        exclude group: 'org.jetbrains.kotlinx', module: 'kotlinx-coroutines-core-jvm'
+    }
     /////////////////////////////////////////////////
-//    api project(":uutil")
-    api 'com.glimmer:uutils:0.1.16'
+    implementation project(":uutil")
+//    implementation 'com.glimmer:uutils:0.1.18'
 }
 
 publish {
     userOrg = 'enjoyeetime'
     groupId = 'com.glimmer'
     artifactId = 'adapterDSL'
-    publishVersion = '0.0.8'
+    publishVersion = '0.0.9'
     desc = 'this is the dsl adapter library'
     website = 'https://github.com/Enjoyee/KtDSL'
 }

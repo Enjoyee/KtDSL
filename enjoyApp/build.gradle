@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -36,8 +35,8 @@ android {
         // work-runtime-ktx 2.1.0 and above now requires Java 8
         jvmTarget = "1.8"
         // Enable Coroutines and Flow APIs
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+//        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+//        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
     }
     /////////////////////////////////////////////////////////////////////////////
 }
@@ -50,10 +49,11 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     ////////////////////////////////////////////////////////////////////////
     implementation project(":mvvm")
-//    implementation 'com.glimmer:mvvm:1.0.73'
+//    implementation 'com.glimmer:mvvm:1.0.99'
     implementation project(":uutil")
-//    implementation 'com.glimmer:adapterDSL:0.0.4'
+//    implementation 'com.glimmer:uutils:0.1.18'
     implementation project(":adapterDSL")
+//    implementation 'com.glimmer:adapterDSL:0.0.9'
     ////////////////////////////////////////////////////////////////////////
     implementation 'com.jakewharton.timber:timber:4.7.1'
     ////////////////////////////////////////////////////////////////////////

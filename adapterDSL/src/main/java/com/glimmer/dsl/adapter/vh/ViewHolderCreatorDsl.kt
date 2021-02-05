@@ -17,7 +17,7 @@ class ViewHolderCreatorDsl<BEAN : Any, VB : ViewDataBinding>(@LayoutRes private 
         this.spanSize = spanSize
     }
 
-    fun bindVH(setUpData: CommonVH<BEAN, VB>.() -> Unit) {
+    fun createVH(setUpData: CommonVH<BEAN, VB>.() -> Unit) {
         this.setUpData = setUpData
     }
 

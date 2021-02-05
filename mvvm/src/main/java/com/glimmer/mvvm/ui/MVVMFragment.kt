@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 abstract class MVVMFragment<VM : BaseVM, DB : ViewDataBinding> : BaseFragment(), IMvvmFragment {
     /**==========================================================**/
     lateinit var binding: DB
-    val vm: VM by lazy { ViewModelProvider(this, defaultViewModelProviderFactory).get(vMClass().java) }
+    val vm: VM by lazy { ViewModelProvider(this).get(vMClass().java) }
 
     /**==========================================================**/
     override fun setFragmentContentView() {

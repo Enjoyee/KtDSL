@@ -1,5 +1,6 @@
 package com.glimmer.mvvm.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.MotionEvent
@@ -33,11 +34,18 @@ abstract class BaseActivity : AppCompatActivity(), IActivity, Clicker {
      */
     val handler by lazy { KHandler(this) }
     val activity: AppCompatActivity by lazy { this }
+    var context: Context? = null
 
     /**
      * 忽略不需要过滤快速点击的view
      */
     private val ignoreMultiClickViewArr = SparseArray<View>()
+
+    /**==========================================================**/
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        context = newBase
+    }
 
     /**==========================================================**/
     override fun onCreate(savedInstanceState: Bundle?) {

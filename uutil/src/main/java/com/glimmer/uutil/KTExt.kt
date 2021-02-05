@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -231,7 +232,12 @@ fun <O> Intent.get(key: String): O? {
 }
 
 /*========================资源========================*/
-fun Context.getColorById(@ColorRes color: Int) = ContextCompat.getColor(this, color)
+fun Context.getColorById(@ColorRes id: Int) = ContextCompat.getColor(this, id)
+
+fun Context.getDrawableById(@DrawableRes id: Int) = ContextCompat.getDrawable(this, id)
+
+val Context.density: Float
+    get() = resources.displayMetrics.density
 
 /*========================encode/decode========================*/
 fun String.encode(enc: String = "UTF-8"): String = URLEncoder.encode(this, enc)

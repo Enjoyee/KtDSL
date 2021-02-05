@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 abstract class MVVMActivity<VM : BaseVM, DB : ViewDataBinding> : BaseActivity(), IMvvmActivity {
     /**==========================================================**/
     val dataBinding: DB by lazy { DataBindingUtil.setContentView(this, bindingConfig.layout) }
-    val vm: VM by lazy { ViewModelProvider(this, defaultViewModelProviderFactory).get(vMClass().java) }
+    val vm: VM by lazy { ViewModelProvider(this).get(vMClass().java) }
 
     /**==========================================================**/
     override fun setActivityContentView() {
