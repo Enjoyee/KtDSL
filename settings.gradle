@@ -1,6 +1,8 @@
-include ':adapterDSL'
-include ':requestDSL', ':requestrx'
-include ':enjoyApp'
-include ':uutil'
+include ':requestrx'
 include ':mvvm'
-rootProject.name='KtDSL'
+include ':requestDSL'
+include ':enjoyApp'
+include ':adapterDSL'
+include ':uutil'
+include ':app'
+rootProject.name = "GlimmerLib"

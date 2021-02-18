@@ -10,11 +10,7 @@ private const val STARTING_PAGE_INDEX = 1
 class StudentDataSource : PagingSource<Int, Any>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Any> {
         val page = params.key ?: STARTING_PAGE_INDEX
-        return LoadResult.Page(
-            data = mockStudentList(),
-            prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
-            nextKey = if (page >= 10) null else page + 1
-        )
+        return LoadResult.Page(data = mockStudentList(), prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1, nextKey = if (page >= 10) null else page + 1)
     }
 
     private fun mockStudentList(): ArrayList<Student> {
@@ -25,6 +21,6 @@ class StudentDataSource : PagingSource<Int, Any>() {
         return list
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Any>): Int = STARTING_PAGE_INDEX
+    override fun getRefreshKey(state: PagingState<Int, Any>): Int? = state.anchorPosition
 
 }
