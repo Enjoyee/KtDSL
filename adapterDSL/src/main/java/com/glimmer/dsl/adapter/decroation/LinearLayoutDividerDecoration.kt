@@ -15,9 +15,8 @@ import kotlin.math.roundToInt
 
 class LinearLayoutDividerDecoration(
     private val context: Context,
-    @ColorRes private val color: Int = android.R.color.black,
-    private val dividerPx: Int = 1,
-    private val orientation: Int = LinearLayout.VERTICAL
+    @ColorRes private val color: Int = android.R.color.darker_gray,
+    private val dividerPx: Int = 1
 ) : RecyclerView.ItemDecoration() {
 
     private val mBounds = Rect()
@@ -31,12 +30,12 @@ class LinearLayoutDividerDecoration(
         mPaint.color = context.getColorById(color)
     }
 
-    fun setHorizontalDividerMargin(topDp: Int = 0, bottomDp: Int = 0) {
+    fun setTopBottomDividerMargin(topDp: Int = 0, bottomDp: Int = 0) {
         mMaiginBounds.top = (topDp * context.density).roundToInt()
         mMaiginBounds.bottom = (bottomDp * context.density).roundToInt()
     }
 
-    fun setVerticalDividerMargin(leftDp: Int = 0, rightDp: Int = 0) {
+    fun setLeftRightDividerMargin(leftDp: Int = 0, rightDp: Int = 0) {
         mMaiginBounds.left = (leftDp * context.density).roundToInt()
         mMaiginBounds.right = (rightDp * context.density).roundToInt()
     }
@@ -54,7 +53,9 @@ class LinearLayoutDividerDecoration(
         if (parent.layoutManager == null) {
             return
         }
-        if (orientation == LinearLayout.VERTICAL) {
+
+        val orientation = getOrientation(parent)
+        if (orientation == RecyclerView.VERTICAL) {
             drawVertical(c, parent)
         } else {
             drawHorizontal(c, parent)
@@ -85,13 +86,13 @@ class LinearLayoutDividerDecoration(
             val finalLeft = left + mMaiginBounds.left
             val finalRight = right + mMaiginBounds.right
 
-            (parent.layoutManager as? LinearLayoutManager)?.apply {
-                if (mNeedLastDivider || (parent.getChildAdapterPosition(child) != findLastCompletelyVisibleItemPosition())) {
-                    canvas.drawRect(finalLeft.toFloat(), top.toFloat(), finalRight.toFloat(), bottom.toFloat(), mPaint)
-                }
+            // 最后一条分割线跟底部分割线
+            if (mNeedLastDivider || !isLastItem(parent)) {
+                canvas.drawRect(finalLeft.toFloat(), top.toFloat(), finalRight.toFloat(), bottom.toFloat(), mPaint)
             }
 
-            if (mNeedFirstDivider && parent.getChildAdapterPosition(child) == 0) {
+            // 第一条分割线
+            if (mNeedFirstDivider && isFirstItem(parent, child)) {
                 bottom = child.top + child.translationY.roundToInt()
                 top = bottom - dividerPx
                 canvas.drawRect(finalLeft.toFloat(), top.toFloat(), finalRight.toFloat(), bottom.toFloat(), mPaint)
@@ -116,39 +117,73 @@ class LinearLayoutDividerDecoration(
             bottom = parent.height
         }
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
-            val child = parent.getChildAt(i)
+        for (index in 0 until childCount) {
+            val child = parent.getChildAt(index)
             parent.getDecoratedBoundsWithMargins(child, mBounds)
-            val right = mBounds.right + child.translationX.roundToInt()
-            val left = right - dividerPx
+            var right = mBounds.right + child.translationX.roundToInt()
+            var left = right - dividerPx
             val finalTop = top + mMaiginBounds.top
             val finalBottom = bottom + mMaiginBounds.bottom
-            canvas.drawRect(left.toFloat(), finalTop.toFloat(), right.toFloat(), finalBottom.toFloat(), mPaint)
+
+            // 最后一条分割线跟右侧分割线
+            if (mNeedLastDivider || !isLastItem(parent)) {
+                canvas.drawRect(left.toFloat(), finalTop.toFloat(), right.toFloat(), finalBottom.toFloat(), mPaint)
+            }
+
+            // 第一条分割线
+            if (mNeedFirstDivider && isFirstItem(parent, child)) {
+                right = child.left + child.translationX.roundToInt()
+                left = right - dividerPx
+                canvas.drawRect(left.toFloat(), finalTop.toFloat(), right.toFloat(), finalBottom.toFloat(), mPaint)
+            }
         }
         canvas.restore()
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
+
+        val orientation = getOrientation(parent)
         if (orientation == LinearLayout.VERTICAL) {
-            if (shouldDrawBottomDivider(parent)) {
-                outRect.bottom = dividerPx
-            } else {
-                outRect.bottom = 0
+            var bottom = dividerPx
+            if (!mNeedLastDivider && isLastItem(parent)) {
+                bottom = 0
             }
+            outRect.bottom = bottom
 
             // 第一个item的顶部分割线
-            if (mNeedFirstDivider && parent.getChildAdapterPosition(view) == 0) {
+            if (mNeedFirstDivider && isFirstItem(parent, view)) {
                 outRect.top = dividerPx
             }
         } else {
-            outRect[0, 0, dividerPx] = 0
+            var right = dividerPx
+            if (!mNeedLastDivider && isLastItem(parent)) {
+                right = 0
+            }
+            outRect.right = right
+
+            // 第一个item的最左侧分割线
+            if (mNeedFirstDivider && isFirstItem(parent, view)) {
+                outRect.left = dividerPx
+            }
         }
     }
 
-    private fun shouldDrawBottomDivider(parent: RecyclerView): Boolean {
+    private fun getOrientation(parent: RecyclerView): Int {
+        var orientation = RecyclerView.VERTICAL
+        (parent.layoutManager as? LinearLayoutManager)?.let {
+            orientation = it.orientation
+        }
+        return orientation
+    }
+
+    private fun isFirstItem(parent: RecyclerView, child: View): Boolean {
+        return parent.getChildAdapterPosition(child) == 0
+    }
+
+    private fun isLastItem(parent: RecyclerView): Boolean {
         (parent.layoutManager as? LinearLayoutManager)?.apply {
-            return !(!mNeedLastDivider && itemCount - 1 == findLastCompletelyVisibleItemPosition())
+            return itemCount - 1 == findLastCompletelyVisibleItemPosition()
         }
         return false
     }

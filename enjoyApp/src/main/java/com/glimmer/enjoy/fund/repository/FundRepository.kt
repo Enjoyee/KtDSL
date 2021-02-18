@@ -24,7 +24,7 @@ enum class FundRepository {
 //        fundCodes.forEach { code ->
 //            coverBean(fundService.getFundEstimates(code), fundDataList)
 //        }
-        for (index in 1 until 12) {
+        for (index in 1 until 15) {
             fundDataList.add(BeanTTFundInfo("1243${index}", "发财${index}", "200${index}", index.toFloat()))
         }
 
