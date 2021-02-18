@@ -2,9 +2,11 @@ package com.glimmer.enjoy.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.glimmer.dsl.adapter.ext.attachAdapter
+import com.glimmer.dsl.adapter.ext.attachPageAdapter
 import com.glimmer.dsl.adapter.ext.submitDataSource
 import com.glimmer.dsl.adapter.ext.submitPageDataSource
 import com.glimmer.enjoy.BR
@@ -19,6 +21,7 @@ import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.ui.MVVMActivity
 import com.glimmer.uutil.anno.LocalKV
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>() {
@@ -41,7 +44,13 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
 
     override fun viewClick(v: View) {
         when (v) {
-            dataBinding.btRefresh -> vm.refresh()
+            dataBinding.btRefresh -> {
+                lifecycleScope.launch {
+                    vm.flo.collectLatest {
+                        dataBinding.rv.submitPageDataSource(it)
+                    }
+                }
+            }
             dataBinding.btAdd -> vm.add()
             dataBinding.btDel -> vm.del()
         }
@@ -55,7 +64,7 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
     override fun initView() {
         super.initView()
         // adapter 绑定
-        dataBinding.rv.attachAdapter {
+        dataBinding.rv.attachPageAdapter {
             layoutManager { GridLayoutManager(activity, 3) }
             listItem {
 
@@ -92,9 +101,12 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
         }
 //
         launch {
-            vm.loadPageList().collectLatest {
-                dataBinding.rv.submitPageDataSource(it)
-            }
+//            vm.flo.collectLatest {
+//                dataBinding.rv.submitPageDataSource(it)
+//            }
+//            vm.loadPageList().collectLatest {
+//                dataBinding.rv.submitPageDataSource(it)
+//            }
         }
     }
 

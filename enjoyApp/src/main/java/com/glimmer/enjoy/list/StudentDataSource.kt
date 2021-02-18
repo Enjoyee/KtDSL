@@ -2,15 +2,27 @@ package com.glimmer.enjoy.list
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.glimmer.dsl.adapter.common.PagingDataSource
 import com.glimmer.enjoy.bean.Student
+import com.glimmer.uutil.logD
 import java.util.*
 
 private const val STARTING_PAGE_INDEX = 1
 
-class StudentDataSource : PagingSource<Int, Any>() {
+class StudentDataSource : PagingDataSource<Int, Any>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Any> {
         val page = params.key ?: STARTING_PAGE_INDEX
-        return LoadResult.Page(data = mockStudentList(), prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1, nextKey = if (page >= 10) null else page + 1)
+        "当前页码：$page".logD()
+        return try {
+            LoadResult.Page(
+                data = mockStudentList(),
+                prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
+                nextKey = if (page >= 10) null else page + 1
+            )
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
+
     }
 
     private fun mockStudentList(): ArrayList<Student> {

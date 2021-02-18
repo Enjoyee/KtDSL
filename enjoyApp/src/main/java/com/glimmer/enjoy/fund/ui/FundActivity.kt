@@ -10,8 +10,10 @@ import com.glimmer.enjoy.R
 import com.glimmer.enjoy.databinding.ActivityFundBinding
 import com.glimmer.enjoy.databinding.RvItemFundBinding
 import com.glimmer.enjoy.fund.bean.BeanTTFundInfo
+import com.glimmer.enjoy.list.PeopleListActivity
 import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.ui.MVVMActivity
+import com.glimmer.uutil.launchActivity
 import com.glimmer.uutil.logD
 import kotlin.reflect.KClass
 
@@ -53,7 +55,12 @@ class FundActivity : MVVMActivity<FundVM, ActivityFundBinding>() {
 //            layoutManager { LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false) }
                 listItem {
                     addItem<BeanTTFundInfo, RvItemFundBinding>(R.layout.rv_item_fund) {
-                        createVH { bindData(BR.rvBean) }
+                        createVH {
+                            bindData(BR.rvBean)
+                            clicker(BR.clicker) { view, bean, position ->
+                                launchActivity<PeopleListActivity>()
+                            }
+                        }
                     }
                 }
             }

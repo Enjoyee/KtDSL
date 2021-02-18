@@ -7,12 +7,17 @@
         <variable
             name="rvBean"
             type="com.glimmer.enjoy.fund.bean.BeanTTFundInfo" />
+
+        <variable
+            name="clicker"
+            type="com.glimmer.uutil.Clicker" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:onClick="@{clicker}">
 
         <TextView
             android:layout_width="wrap_content"
