@@ -22,7 +22,7 @@ abstract class MVVMFragment<VM : BaseVM, DB : ViewDataBinding> : BaseFragment(),
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, bindingConfig.layout, container, false)
+        binding = DataBindingUtil.inflate(inflater, layoutId(), container, false)
         binding.lifecycleOwner = this
         // 绑定布局vm
         binding.setVariable(bindingConfig.vmVariableId.invoke(), bindingConfig.viewModel.invoke())

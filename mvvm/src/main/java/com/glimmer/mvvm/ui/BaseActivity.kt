@@ -57,13 +57,14 @@ abstract class BaseActivity : AppCompatActivity(), IActivity, Clicker {
     }
 
     internal open fun setActivityContentView() {
-        setContentView(bindingConfig.layout)
+        setContentView(layoutId())
     }
 
     /**==========================================================**/
     private fun setStatusBar() {
         BarUtils.transparentStatusBar(this)
-        statusBarMode()
+        statusBarMode(isStatusBarFontDark())
+        marginStatusBarView()?.apply { addViewMarginStatusBar(this) }
     }
 
     override fun onInit() {
@@ -120,16 +121,26 @@ abstract class BaseActivity : AppCompatActivity(), IActivity, Clicker {
     open fun clickDurationTimeUnit() = TimeUnit.MILLISECONDS
 
     /**
+     * 是否显示黑色文字
+     */
+    open fun isStatusBarFontDark() = false
+
+    /**
      * 状态栏字体是否黑色模式
      */
-    open fun statusBarMode(blackFont: Boolean = false) {
+    internal fun statusBarMode(blackFont: Boolean) {
         BarUtils.setStatusBarLightMode(this, blackFont)
     }
 
     /**
+     * 下移状态栏高度的view
+     */
+    open fun marginStatusBarView(): View? = null
+
+    /**
      * 是否设置view距离状态栏高度
      */
-    fun addViewMarginStatusBar(view: View) {
+    internal fun addViewMarginStatusBar(view: View) {
         BarUtils.addMarginTopEqualStatusBarHeight(view)
     }
 
@@ -166,6 +177,9 @@ abstract class BaseActivity : AppCompatActivity(), IActivity, Clicker {
     }
 
     open fun filterHideKeyboardView(): List<View> = emptyList()
+
+    /**==========================================================**/
+    abstract fun layoutId(): Int
 
     /**==========================================================**/
     abstract fun createBindingInfo(): BindingConfig.Info

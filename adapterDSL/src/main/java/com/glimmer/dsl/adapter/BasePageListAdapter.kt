@@ -10,7 +10,8 @@ import com.glimmer.dsl.adapter.vh.ViewHolderCreatorDsl
 import com.glimmer.uutil.doWithTry
 import kotlin.reflect.KClass
 
-abstract class BasePageListAdapter<VH : BaseVH<Any, *>>(callback: ItemDiffCallback<Any> = ItemDiffCallback()) : PagingDataAdapter<Any, VH>(callback) {
+abstract class BasePageListAdapter<VH : BaseVH<Any, *>>(callback: ItemDiffCallback<Any> = ItemDiffCallback()) :
+    PagingDataAdapter<Any, VH>(callback) {
     internal val typeVHs = SparseArrayCompat<ViewHolderCreatorDsl<*, *>>()
     internal val clsBeanType = SparseArrayCompat<KClass<*>>()
 

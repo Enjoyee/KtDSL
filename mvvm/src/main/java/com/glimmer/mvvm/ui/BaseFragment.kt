@@ -54,7 +54,7 @@ abstract class BaseFragment : Fragment(), IFragment, Clicker {
         clazz?.let {
             val field = it.getDeclaredField("mContentLayoutId")
             field.isAccessible = true
-            field.set(this, bindingConfig.layout)
+            field.set(this, layoutId())
         } ?: throw ClassNotFoundException("fragment init layout error")
     }
 
@@ -76,14 +76,15 @@ abstract class BaseFragment : Fragment(), IFragment, Clicker {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            statusBarMode()
+            statusBarMode(isStatusBarFontDark())
         }
     }
 
     override fun onInit() {
-        statusBarMode()
+        statusBarMode(isStatusBarFontDark())
         initData()
         initView()
+        marginStatusBarView()?.apply { addViewMarginStatusBar(this) }
     }
 
     override fun initData() {
@@ -135,16 +136,26 @@ abstract class BaseFragment : Fragment(), IFragment, Clicker {
     open fun clickDurationTimeUnit() = TimeUnit.MILLISECONDS
 
     /**
+     * 是否显示黑色文字
+     */
+    open fun isStatusBarFontDark() = false
+
+    /**
      * 状态栏字体是否黑色模式
      */
-    open fun statusBarMode(blackFont: Boolean = false) {
+    private fun statusBarMode(blackFont: Boolean) {
         (bindActivity as? BaseActivity)?.statusBarMode(blackFont)
     }
 
     /**
+     * 下移状态栏高度的view
+     */
+    open fun marginStatusBarView(): View? = null
+
+    /**
      * 是否设置view距离状态栏高度
      */
-    fun addViewMarginStatusBar(view: View) {
+    private fun addViewMarginStatusBar(view: View) {
         (bindActivity as? BaseActivity)?.addViewMarginStatusBar(view)
     }
 
@@ -152,6 +163,9 @@ abstract class BaseFragment : Fragment(), IFragment, Clicker {
         super.onDestroyView()
         isLoaded = false
     }
+
+    /**==========================================================**/
+    abstract fun layoutId(): Int
 
     /**==========================================================**/
     abstract fun createBindingInfo(): BindingConfig.Info

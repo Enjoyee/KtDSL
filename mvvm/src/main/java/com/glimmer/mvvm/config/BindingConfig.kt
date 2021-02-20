@@ -1,7 +1,6 @@
 package com.glimmer.mvvm.config
 
 import android.util.SparseArray
-import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModel
 
 object BindingConfig {
@@ -11,14 +10,9 @@ object BindingConfig {
     }
 
     class Info {
-        internal var layout: Int = 0
         internal var vmVariableId: (() -> Int) = { 0 }
         internal var viewModel: (() -> ViewModel?) = { null }
         internal val bindingParams: SparseArray<Any> = SparseArray()
-
-        fun layoutId(@LayoutRes layoutId: Int) {
-            layout = layoutId
-        }
 
         fun viewModel(vmVariableId: Int, viewModel: ViewModel) {
             this.vmVariableId = { vmVariableId }
@@ -32,7 +26,6 @@ object BindingConfig {
                 bindingParams.put(it.first, it.second)
             }
         }
-
 
     }
 

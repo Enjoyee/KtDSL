@@ -48,14 +48,8 @@ class PeopleListVM : BaseVM() {
         }
     }
 
-    fun loadPageList() =
-        Pager(
-            config = PagingConfig(pageSize = 20, enablePlaceholders = true),
-            pagingSourceFactory = { StudentDataSource() }
-        ).flow
-
-    val flo = Pager(
-        PagingConfig(pageSize = 20)
+    val studentList = Pager(
+        PagingConfig(pageSize = 20),
     ) {
         StudentDataSource()
     }.flow.cachedIn(viewModelScope)

@@ -19,10 +19,11 @@ import kotlin.reflect.KClass
 
 class FundActivity : MVVMActivity<FundVM, ActivityFundBinding>() {
 
+    override fun layoutId(): Int = R.layout.activity_fund
+
     override fun vMClass(): KClass<FundVM> = FundVM::class
 
     override fun createBindingInfo(): BindingConfig.Info = BindingConfig.create {
-        layoutId(R.layout.activity_fund)
         viewModel(BR.vm, vm)
         params(BR.clicker bind activity)
     }

@@ -2,6 +2,7 @@ package com.glimmer.enjoy.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,6 +12,7 @@ import com.glimmer.dsl.adapter.ext.submitDataSource
 import com.glimmer.dsl.adapter.ext.submitPageDataSource
 import com.glimmer.enjoy.BR
 import com.glimmer.enjoy.R
+import com.glimmer.enjoy.bean.BeanCommonToolBar
 import com.glimmer.enjoy.bean.Student
 import com.glimmer.enjoy.bean.Teacher
 import com.glimmer.enjoy.databinding.ActivityPeopleListBinding
@@ -28,15 +30,12 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
     @LocalKV(key = "1234", "默认")
     var testStr2: String? = null
 
-    override fun vMClass(): KClass<PeopleListVM> = PeopleListVM::class
+    override fun layoutId(): Int = R.layout.activity_people_list
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override fun vMClass(): KClass<PeopleListVM> = PeopleListVM::class
 
     override fun createBindingInfo(): BindingConfig.Info {
         return BindingConfig.create {
-            layoutId(R.layout.activity_people_list)
             viewModel(BR.vm, vm)
             params(BR.clicker bind activity)
         }
@@ -45,11 +44,12 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
     override fun viewClick(v: View) {
         when (v) {
             dataBinding.btRefresh -> {
-                lifecycleScope.launch {
-                    vm.flo.collectLatest {
-                        dataBinding.rv.submitPageDataSource(it)
-                    }
-                }
+//                launch {
+//                    vm.studentList.collectLatest {
+//                        dataBinding.rv.submitPageDataSource(it)
+//                    }
+//                }
+                vm.refresh()
             }
             dataBinding.btAdd -> vm.add()
             dataBinding.btDel -> vm.del()
@@ -61,13 +61,18 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
         testStr2 = "1233332"
     }
 
+    override fun isStatusBarFontDark(): Boolean = false
+
     override fun initView() {
         super.initView()
+        // 标题
+        vm.beanToolBar.value = BeanCommonToolBar().apply {
+            leftText = "测试"
+        }
         // adapter 绑定
-        dataBinding.rv.attachPageAdapter {
+        dataBinding.rv.attachAdapter {
             layoutManager { GridLayoutManager(activity, 3) }
             listItem {
-
                 addItem<Teacher, ItemTeacherBinding>(R.layout.item_teacher) {
                     isViewType { it is Teacher }
                     spanSizeUp { 2 }
@@ -79,7 +84,6 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
                         }
                     }
                 }
-
                 addItem<Student, ItemStudentBinding>(R.layout.item_student) {
                     isViewType { it is Student }
                     spanSizeUp { 1 }
@@ -89,25 +93,13 @@ class PeopleListActivity : MVVMActivity<PeopleListVM, ActivityPeopleListBinding>
                         }
                     }
                 }
-
             }
         }
     }
 
     override fun dataObserver() {
         super.dataObserver()
-        vm.peopleList.observe(this) {
-            dataBinding.rv.submitDataSource(it)
-        }
-//
-        launch {
-//            vm.flo.collectLatest {
-//                dataBinding.rv.submitPageDataSource(it)
-//            }
-//            vm.loadPageList().collectLatest {
-//                dataBinding.rv.submitPageDataSource(it)
-//            }
-        }
+        vm.peopleList.observe(this, Observer { dataBinding.rv.submitDataSource(it) })
     }
 
 }

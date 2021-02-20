@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,6 +12,10 @@
         <variable
             name="clicker"
             type="com.glimmer.uutil.Clicker" />
+
+        <variable
+            name="toolbarBean"
+            type="com.glimmer.enjoy.bean.BeanCommonToolBar" />
     </data>
 
     <LinearLayout
@@ -20,7 +25,9 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/inc_tool_bar"/>
+            layout="@layout/inc_tool_bar"
+            app:clicker="@{clicker}"
+            app:bean="@{vm.beanToolBar}" />
 
         <Button
             android:id="@+id/btRefresh"
