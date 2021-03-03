@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.MutableLiveData
 import com.glimmer.uutil.Clicker
 
 class CommonVH<BEAN : Any, VB : ViewDataBinding>(
@@ -18,7 +19,7 @@ class CommonVH<BEAN : Any, VB : ViewDataBinding>(
 ) : BaseVH<BEAN, VB>(viewDataBinding), Clicker {
     val vhDataBinding = viewDataBinding
     private var beanVariableId: Int? = null
-    private lateinit var bean: BEAN
+    private lateinit var bean: MutableLiveData<BEAN>
     private var itemPosition: Int = 0
     private var setUp: ((bean: BEAN, position: Int) -> Unit)? = null
     private var clicker: ((View, BEAN, Int) -> Unit)? = null
@@ -28,7 +29,7 @@ class CommonVH<BEAN : Any, VB : ViewDataBinding>(
     }
 
     override fun bindData(bean: BEAN, position: Int) {
-        this.bean = bean
+        this.bean = MutableLiveData(bean)
         this.itemPosition = position
         bindVariable(beanVariableId, bean)
         setUp?.invoke(bean, position)
@@ -36,7 +37,7 @@ class CommonVH<BEAN : Any, VB : ViewDataBinding>(
 
     override fun onClick(v: View?) {
         v?.let {
-            clicker?.invoke(it, bean, itemPosition)
+            clicker?.invoke(it, bean.value!!, itemPosition)
             refreshItem()
         }
     }
@@ -61,7 +62,7 @@ class CommonVH<BEAN : Any, VB : ViewDataBinding>(
         this.clicker = clicker
     }
 
-    fun refreshItem(bean: BEAN = this.bean) {
+    fun refreshItem(bean: MutableLiveData<BEAN> = this.bean) {
         bindVariable(beanVariableId, bean)
     }
 

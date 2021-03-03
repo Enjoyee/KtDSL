@@ -5,18 +5,13 @@ import com.glimmer.enjoy.fund.repository.FundRepository
 import com.glimmer.mvvm.viewmodel.BaseVM
 import com.glimmer.uutil.logD
 import kotlinx.coroutines.flow.onStart
-import java.io.File
 
 class FundVM : BaseVM() {
-    private val fundCodeList = listOf("001838", "002190", "161725", "160643", "000336", "161726", "519019")
+    private val fundCodeList = listOf("162605", "161725", "000336", "163402", "002190", "004997", "165520")
 
-    fun getFundData() = FundRepository.instance
+    fun getFundData() = FundRepository.Instance
         .getFundDataList(fundCodeList)
         .onStart { "请求天天基金数据...".logD() }
         .asLiveData()
 
-    fun test() = FundRepository.instance
-        .testUpload(File("/storage/emulated/0/DCIM/Camera/IMG_20210129_113834.jpg"))
-        .onStart { "上传...".logD() }
-        .asLiveData()
 }

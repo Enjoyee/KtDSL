@@ -11,12 +11,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
-        android:requestLegacyExternalStorage="true"
         tools:targetApi="m">
 
         <!--        <activity android:name=".home.HomeActivity">-->
@@ -30,7 +30,9 @@
         <activity android:name=".list.PeopleListActivity" />
 
         <!--基金-->
-        <activity android:name=".fund.ui.FundActivity">
+        <activity
+            android:name=".fund.ui.FundActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -89,66 +89,83 @@ inline fun <reified T : Parcelable> MMKV.parcelable(
     }
 
 /*=======================================================*/
+
 fun delegateBoolean(
     key: String? = null,
     defaultValue: Boolean = false,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.boolean(key, defaultValue)
+): ReadWriteProperty<Any, Boolean> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.delegate(key, defaultValue, MMKV::decodeBool, MMKV::encode)
 
 fun delegateInt(
     key: String? = null,
     defaultValue: Int = 0,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.int(key, defaultValue)
+): ReadWriteProperty<Any, Int> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.delegate(key, defaultValue, MMKV::decodeInt, MMKV::encode)
 
 fun delegateLong(
     key: String? = null,
     defaultValue: Long = 0L,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.long(key, defaultValue)
+): ReadWriteProperty<Any, Long> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.delegate(key, defaultValue, MMKV::decodeLong, MMKV::encode)
 
 fun delegateFloat(
     key: String? = null,
     defaultValue: Float = 0.0F,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.float(key, defaultValue)
+): ReadWriteProperty<Any, Float> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.delegate(key, defaultValue, MMKV::decodeFloat, MMKV::encode)
 
 fun delegateDouble(
     key: String? = null,
     defaultValue: Double = 0.0,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.double(key, defaultValue)
+): ReadWriteProperty<Any, Double> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.delegate(key, defaultValue, MMKV::decodeDouble, MMKV::encode)
 
 fun delegateByteArray(
     key: String? = null,
     defaultValue: ByteArray? = null,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.byteArray(key, defaultValue)
+): ReadWriteProperty<Any, ByteArray?> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.nullableDefaultValueDelegate(key, defaultValue, MMKV::decodeBytes, MMKV::encode)
 
 fun delegateString(
     key: String? = null,
     defaultValue: String? = null,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.string(key, defaultValue)
+): ReadWriteProperty<Any, String?> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.nullableDefaultValueDelegate(key, defaultValue, MMKV::decodeString, MMKV::encode)
 
 fun delegateStringSet(
     key: String? = null,
     defaultValue: Set<String>? = null,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.stringSet(key, defaultValue)
+): ReadWriteProperty<Any, Set<String>?> =
+    MMKV.defaultMMKV(mode, cryptKey)!!.nullableDefaultValueDelegate(key, defaultValue, MMKV::decodeStringSet, MMKV::encode)
 
 inline fun <reified T : Parcelable> delegateParcelable(
     key: String? = null,
     defaultValue: T? = null,
     mode: Int = MMKV.SINGLE_PROCESS_MODE,
     cryptKey: String? = null
-) = MMKV.defaultMMKV(mode, cryptKey)?.parcelable(key, defaultValue)
+): ReadWriteProperty<Any, T?> =
+    object : ReadWriteProperty<Any, T?> {
+        override fun getValue(thisRef: Any, property: KProperty<*>): T? =
+            MMKV.defaultMMKV(mode, cryptKey)!!.decodeParcelable(key ?: property.name, T::class.java, defaultValue)
+
+        override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) {
+            MMKV.defaultMMKV(mode, cryptKey)!!.encode(key ?: property.name, value)
+        }
+    }
 

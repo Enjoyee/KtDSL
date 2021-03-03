@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hz.statistics">
+
+    <application>
+        <provider
+            android:name=".StatisticsContentProvider"
+            android:authorities="${applicationId}.evilprovider"
+            android:exported="false" />
+    </application>
+
+</manifest>
