@@ -52,7 +52,8 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     ////////////////////////////////////////////////////////////////////////
-    implementation project(":evil")
+//    implementation 'com.hz:statistics:1.0.4'
+//    implementation project(":evil")
     implementation project(":mvvm")
 //    implementation 'com.glimmer:mvvm:1.0.99'
     implementation project(":uutil")

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.glimmer.lib.databinding.ActivityMainBinding;
 
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends BaseAc {
     private ActivityMainBinding binding;
 
     @Override
@@ -25,6 +24,12 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         List<String> arrayList = new ArrayList<>();
         arrayList.add(null);
+
+//        Intent intent = new Intent();
+//        intent.addCategory("com.glimmer.test");
+//        intent.setAction("www.fuckyou.com");
+//        startActivity(intent);
+
         Class<?> cls = Student.class;
         try {
 //            Constructor constructor = cls.getConstructor(String.class);
@@ -46,4 +51,9 @@ public class SecondActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(1000);
+    }
 }

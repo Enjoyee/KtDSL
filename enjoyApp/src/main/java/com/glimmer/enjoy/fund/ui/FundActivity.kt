@@ -13,7 +13,6 @@ import com.glimmer.mvvm.config.BindingConfig
 import com.glimmer.mvvm.ui.MVVMActivity
 import com.glimmer.uutil.delegateString
 import com.glimmer.uutil.logD
-import com.glimmer.uutil.logW
 import kotlin.reflect.KClass
 
 class FundActivity : MVVMActivity<FundVM, ActivityFundBinding>() {
@@ -30,8 +29,6 @@ class FundActivity : MVVMActivity<FundVM, ActivityFundBinding>() {
 
     override fun viewClick(v: View) {
         super.viewClick(v)
-        s2?.logW("00000")
-        s2 = "==>${System.currentTimeMillis()}"
         when (v) {
             dataBinding.btnGetFundData -> {
                 vm.getFundData().observe(this, {

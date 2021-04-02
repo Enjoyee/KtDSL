@@ -11,7 +11,7 @@ android {
     buildToolsVersion androidConfig.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion androidConfig.minSdkVersion
+        minSdkVersion 19
         targetSdkVersion androidConfig.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -39,7 +39,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
 }
@@ -48,7 +47,7 @@ publish {
     userOrg = 'enjoyeetime'
     groupId = 'com.hz'
     artifactId = 'statistics'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.41'
     desc = 'this is the dsl library'
     website = 'https://github.com/Enjoyee/KtDSL'
 }
